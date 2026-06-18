@@ -1,0 +1,177 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Textures\Russian\.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HarmonyX" Version="2.16.1" />
+    <PackageReference Include="Il2CppInterop.Common" Version="1.5.1" />
+    <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.1" />
+    <PackageReference Include="LavaGang.MelonLoader" Version="0.7.3" />
+    <PackageReference Include="STBlade.Modding.TLD.ModSettings" Version="1.9.0" />
+    <PackageReference Include="Waltz.Modding.TLD.Il2CppAssemblies.Windows" Version="2.52.0" />
+  </ItemGroup>
+
+	<PropertyGroup>
+		<GAME_PATH>C:\SteamLibrary\steamapps\common\TheLongDark</GAME_PATH>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="MelonLoader">
+			<HintPath>$(GAME_PATH)\MelonLoader\MelonLoader.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Il2Cppmscorlib">
+			<HintPath>$(GAME_PATH)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(GAME_PATH)\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.PhysicsModule">
+			<HintPath>$(GAME_PATH)\MelonLoader\Il2CppAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.ImageConversionModule">
+			<HintPath>$(GAME_PATH)\MelonLoader\Il2CppAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+  <ItemGroup>
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Sign_C.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignDam_A.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_RifleAmmoBox_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_TomatoSoupCan_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_CanLid_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GLB_MetalRusted_D.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_CarBattery_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RailwayTruck.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodCannedPeaches_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__PinnacleCanPeaches.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__TomatoSoupCan.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Matches_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__WoodMatches.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BottleHydrogenPeroxide.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__Accelerant.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BottleAntibiotics.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__FlareA.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RifleAmmoBox.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__SewingKit.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_AccelerantLighterFuel_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_HydrogenPeroxide_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_AntibioticPillBottle_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Flare_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_SewingKit_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__DustingSulfur.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SulfurBag_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_CoffeeTin_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CoffeeTin.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_CoffeeTinLid_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_RevolverAmmoBox_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Film_Box_BW.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Film_Box_Colour.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Film_Box_Sepia.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__FilmBoxColour.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__FilmBoxBW.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__FilmBoxSepia.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__GranolaBar.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_GranolaBar_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RevolverAmmoBox.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_DogFood_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__DogFood.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedCorn.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodCannedCorn_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodPorkAndBeans_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedBeans.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_CondensedMilk_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CondensedMilk.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodCannedPineapple_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedPineapple.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_PeanutButter_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__PeanutButter.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodSodaSummit_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__Soda.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodSodaOrange_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__SodaOrange.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodSodaGrape_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__SodaGrape.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Oats.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__OatsTin.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodCannedHam_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedHam.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_DriedApples.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__DriedApples.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_KetchupChips_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__KetchupChips.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_SaltBag.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__SaltBag.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Flare_Blue_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BlueFlare.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_HeatPad.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__HeatPad.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodMRE_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__MRE.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodEnergyBar_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__EnergyBar.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_CannedSardines_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedSardines.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_WaterPurificationTablets_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__WaterPurificationTablets.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\CLTH_ACC_BallisticVest.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\CLTH_ACC_BallisticVest_Dmg.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BallisticVest.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\CLTH_ACC_BallisticVest1.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodBeefJerky_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BeefJerky.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Cash_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CashBundle.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_LabelVitamins.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BottleVitaminC.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FoodCandyBars_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CandyBar.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_FoodEnergyDrink_A.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__SodaEnergy.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_CaffeineBox.png"  />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BottleCaffeine.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_GreenTeaPackage_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__GreenTeaPackage.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_GunpowderCan_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__GunpowderCan.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Cereal_A.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__Cereal_A.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_BoxedCrackers_Dif.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__Crackers.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_FlourBag.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__Flour.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_InsulatedFlask_G.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__InsulatedFlask_G.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_MapleSyrup_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__MapleSyrup.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_PotassiumNitrate_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__StumpRemover.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_LampFuel_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__LampFuel.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookRevolver_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookRevolverFirearm.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookHardcover_Cooking.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookSoftcover_Frontier.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookCooking.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookRifleFirearm.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookSoftcover_IceFishing.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookIceFishing.png" /> 
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command=":: Копируем DLL в папку модов The Long Dark&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;C:\SteamLibrary\steamapps\common\TheLongDark\Mods&quot; /Y /I&#xD;&#xA;echo.&#xD;&#xA;echo ========================================&#xD;&#xA;echo ✅ TranslatedTextures — successfully copied to Mods folder&#xD;&#xA;echo ========================================" />
+  </Target>
+
+</Project>
