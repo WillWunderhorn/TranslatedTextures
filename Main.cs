@@ -191,6 +191,8 @@ namespace TranslatedTextures
 
                 new TextureRule { TextureFile = "OBJ_BookSoftcover_IceFishing.png", TargetName = "Mesh", ExactName = true, ParentName = "GEAR_BookIceFishing" },
 
+                new TextureRule { TextureFile = "OBJ_BookMagazine_Guns.png", TargetName = "Mesh", ExactName = true, ParentName = "GEAR_BookRifleFirearmAdvanced" },
+
             });
 
             return rules;

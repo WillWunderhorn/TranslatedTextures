@@ -168,6 +168,7 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookRifleFirearm.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookSoftcover_IceFishing.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookIceFishing.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookMagazine_Guns.png" /> 
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
