@@ -169,6 +169,22 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookSoftcover_IceFishing.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookIceFishing.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookMagazine_Guns.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookRifleFirearmAdvanced.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookGunsmithing_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookGunsmithing.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookHardcover_Mending.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookMending.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookMagazine_Archery.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookArchery.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookHardcover_FieldDressingVol1.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookCarcassHarvesting.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookHardcover_Survive.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookFireStarting.png" /> 
+
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CarBattery.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDebrisA.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_PosterCougar_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_InteriorCampOfficeDeco_A.png" /> 
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
