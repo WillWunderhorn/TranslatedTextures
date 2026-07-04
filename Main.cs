@@ -42,13 +42,11 @@ namespace TranslatedTextures
 
         internal static readonly List<TextureRule> Rules = BuildRules();
 
-        // Имена объектов которые нас интересуют — для фильтрации логов
         private static readonly HashSet<string> TrackedNames = new HashSet<string>
         {
             "CannedFoodMesh", "CannedFoodMesh_Old", "OBJ_CannedFood", "OBJ_CannedFood_Old",
             "GranolaBarMesh", "RifleAmmoBox_LOD0", "GEAR_TomatoSoupCan", "GEAR_DogFood",
             "GEAR_CondensedMilk", "GEAR_CannedSardines",
-            // Добавь сюда имена предметов которые не меняются из контейнеров
         };
 
         private static bool IsTracked(string name)
@@ -427,9 +425,6 @@ namespace TranslatedTextures
         }
     }
 
-    // ====== ДИАГНОСТИЧЕСКИЕ ПАТЧИ ======
-    // Отслеживают жизненный цикл GearItem чтобы понять когда и как спавнятся предметы из контейнеров
-
     [HarmonyPatch(typeof(Il2Cpp.GearItem), "Awake")]
     internal static class GearItem_Awake_Patch
     {
@@ -438,7 +433,6 @@ namespace TranslatedTextures
             if (__instance == null) return;
             string name = __instance.gameObject.name;
 
-            // Применяем текстуры как можно раньше
             Main.ApplyTexturesToObject(__instance.gameObject);
 
             if (!Main.LoadedTextures.ContainsKey(name) && !IsInteresting(name)) return;
@@ -480,7 +474,6 @@ namespace TranslatedTextures
             if (__instance == null) return;
             string name = __instance.gameObject.name;
             MelonLogger.Msg($"[DIAG] GearItem.Start: '{name}'");
-            // Применяем текстуры при старте — покрывает спавн из контейнеров
             Main.ApplyTexturesToObject(__instance.gameObject);
         }
     }
@@ -496,8 +489,6 @@ namespace TranslatedTextures
             Main.ApplyTexturesToObject(__instance.gameObject);
         }
     }
-
-    // ====== РАБОЧИЕ ПАТЧИ ======
 
     [HarmonyPatch(typeof(Il2Cpp.UITexture), nameof(Il2Cpp.UITexture.mainTexture), MethodType.Setter)]
     internal static class UITexture_SetMainTexture_Patch
