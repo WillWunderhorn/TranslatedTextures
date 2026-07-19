@@ -255,7 +255,9 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_PlanePartsA_Dif.png", TargetName = "OBJ_PlaneTail_Prefab", SourceTextureName = "OBJ_PlanePartsA_Mat" },
                 new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_B.png", TargetName = "OBJ_Blackrock_Mine_sign_E_Prefab", ExactName = true, SourceTextureName = "OBJ_Blackrockmine_signs_B" },
                 new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_A.png", TargetName = "OBJ_Blackrock_Mine_sign_B_Prefab", ExactName = true, SourceTextureName = "OBJ_Blackrockmine_signs_A" },
-                new TextureRule { TextureFile = ".png", TargetName = "OBJ_MineSignC_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_MineSignC_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSigns_A" },
+                new TextureRule { TextureFile = "OBJ_Mine_Sign_ToxicGas.png", TargetName = "OBJ_Blackrock_Mine_ToxicGas_Sign_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_Sign_B.png", TargetName = "OBJ_RoadSignG_LOD0", ExactName = true, SourceTextureName = "OBJ_Sign_B01" },
                 new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
             });
 

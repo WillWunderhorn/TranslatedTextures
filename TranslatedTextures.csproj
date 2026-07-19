@@ -197,6 +197,9 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_PlanePartsA_Dif.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BlackRockMineA_Signs_Base_B.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BlackRockMineA_Signs_Base_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_MineSigns_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Mine_Sign_ToxicGas.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Sign_B.png" /> 
 
   </ItemGroup>
 
