@@ -200,6 +200,19 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_MineSigns_A.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Mine_Sign_ToxicGas.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Sign_B.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_CarTruck_Blackrock.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignMilton_B.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_CargoContainer_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDeco_D.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BlackrockPower_Signs.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\TEX_PrisonBus_Complete_BRtext.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDeco_C.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDeco_E.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_signs_tunnel_base_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Sign_E.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignQuincysQuonset_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_GasPump_B.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\FX_DecalWolfScaredFlares_A01.png" /> 
 
   </ItemGroup>
 

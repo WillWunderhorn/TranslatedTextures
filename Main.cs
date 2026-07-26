@@ -40,6 +40,52 @@ namespace TranslatedTextures
             new CannedGearDef { TextureFile = "GEAR_CannedSardines_Dif.png", SourceTextureName = "GEAR_CannedSardines_Dif", ParentName = "GEAR_CannedSardines" },
         };
 
+        private static string NormalizeName(string name)
+        {
+            return System.Text.RegularExpressions.Regex.Replace(name, @"\s\(\d+\)$", "");
+        }
+
+        internal static void ReplaceTexturePixels(string originalName, Texture2D newTex)
+        {
+            var allTex = Resources.FindObjectsOfTypeAll<Texture2D>();
+            int count = 0;
+
+            foreach (var tex in allTex)
+            {
+                if (tex == null) continue;
+                if (tex.name != originalName && tex.name != originalName + "_RU") continue;
+                if (tex == newTex) continue;
+
+                try
+                {
+                    if (tex.width != newTex.width || tex.height != newTex.height)
+                    {
+                        MelonLogger.Warning($"[PIXEL] size mismatch {tex.width}x{tex.height} vs {newTex.width}x{newTex.height}");
+                        continue;
+                    }
+
+                    if (tex.isReadable && newTex.isReadable)
+                    {
+                        tex.SetPixels(newTex.GetPixels());
+                        tex.Apply(true, false);
+                    }
+                    else
+                    {
+                        Graphics.CopyTexture(newTex, tex);
+                    }
+
+                    count++;
+                    MelonLogger.Msg($"[PIXEL REPLACE] overwrote '{tex.name}' ({tex.width}x{tex.height})");
+                }
+                catch (System.Exception e)
+                {
+                    MelonLogger.Error($"[PIXEL] error on '{tex.name}': {e.Message}");
+                }
+            }
+
+            MelonLogger.Msg($"[PIXEL REPLACE] total overwritten: {count}");
+        }
+
         internal static readonly List<TextureRule> Rules = BuildRules();
 
         private static readonly HashSet<string> TrackedNames = new HashSet<string>
@@ -64,7 +110,7 @@ namespace TranslatedTextures
             {
                 if (renderer == null) continue;
 
-                string objName = renderer.gameObject.name;
+                string objName = NormalizeName(renderer.gameObject.name);
 
                 foreach (var rule in Rules)
                 {
@@ -112,6 +158,11 @@ namespace TranslatedTextures
                             if (dmgTex != null)
                                 mats[i].SetTexture(711, dmgTex);
                         }
+
+                        MaterialPropertyBlock block = new MaterialPropertyBlock();
+                        renderer.GetPropertyBlock(block, i);
+                        block.SetTexture("_MainTex", newTex);
+                        renderer.SetPropertyBlock(block, i);
                     }
                 }
             }
@@ -223,7 +274,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_Sign_C.png", TargetName = "OBJ_RoadSignI_LOD1",   SourceTextureName = "OBJ_Sign_C01" },
                 new TextureRule { TextureFile = "GLB_MetalRusted_D.png", TargetName = "OBJ_SignDamEntrance_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamCarterB_LOD0", ExactName = true }, 
-                new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamCarterB_LOD1", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamCarterB_LOD1", ExactName = true }, 
                 new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "CarBattery_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RailwayTruck.png", TargetName = "OBJ_CarTruckDoorEXT_LOD0", ExactName = true,  SourceTextureName = "OBJ_RailwayTruck"},
                 new TextureRule { TextureFile = "GEAR_WaterBottleLabel.png", TargetName = "Water500ml_LOD0", ExactName = true, SourceTextureName = "GEAR_WaterBottleLabel" },
@@ -237,7 +288,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_Sign_D.png", TargetName = "OBJ_SignAidStation_B_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_Sign_D.png", TargetName = "OBJ_SignAidStation_A_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_Sign_D.png", TargetName = "OBJ_SignElevator_A_LOD0", ExactName = true },
-                new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamTresspassing_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamTresspassing_LOD0", ExactName = true, SourceTextureName = "OBJ_SignDam_A" },
                 new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamCarterInterior", SourceTextureName = "OBJ_SignDam_A01" }, 
                 new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDam_A01", ExactName = true, SourceTextureName = "OBJ_SignDam_A01" },
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_B.png", TargetName = "OBJ_SignDeco7_LOD0", ExactName = true },
@@ -258,6 +309,34 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_MineSignC_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSigns_A" },
                 new TextureRule { TextureFile = "OBJ_Mine_Sign_ToxicGas.png", TargetName = "OBJ_Blackrock_Mine_ToxicGas_Sign_LOD0", ExactName = true},
                 new TextureRule { TextureFile = "OBJ_Sign_B.png", TargetName = "OBJ_RoadSignG_LOD0", ExactName = true, SourceTextureName = "OBJ_Sign_B01" },
+                new TextureRule { TextureFile = "OBJ_CarTruck_Blackrock.png", TargetName = "OBJ_Blackrock_TruckDoorRightEXT_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_SignPrisonB_LOD0", ExactName = true, SourceTextureName = "OBJ_MineandPrisonSignA" },
+                new TextureRule { TextureFile = "OBJ_SignMilton_B.png", TargetName = "OBJ_MiltonRoadSignA_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_Thompson_Signs_A.png", TargetName = "OBJ_Thomson_MaxWeight_Sign_A_LOD0", ExactName = true, SourceTextureName = "STR_Thomson_Signs_A" },
+                new TextureRule { TextureFile = "OBJ_CargoContainer_A.png", TargetName = "OBJ_CargoContainer_A_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_SignMineG_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSignA" },
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonStopCheckSignA_LOD0", ExactName = true },
+                //new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonInspectionSignA_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_SignPrisonD_LOD0", ExactName = true, SourceTextureName = "OBJ_MineandPrisonSignA"},
+                new TextureRule { TextureFile = "OBJ_BlackrockPower_Signs.png", TargetName = "OBJ_PrisonDirectorySignA_LOD0", ExactName = true, SourceTextureName = "OBJ_Sign_G01" },
+                new TextureRule { TextureFile = "TEX_PrisonBus_Complete_BRtext.png", TargetName = "OBJ_PrisonBus_Complete_text", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_C.png", TargetName = "OBJ_PrisonInfirmarySignA_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_E.png", TargetName = "OBJ_ClipBoardPapers_A", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_E.png", TargetName = "OBJ_BuisnessCard_A_Prefab", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_E.png", TargetName = "OBJ_BuisnessCard_A_Prefab", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_signs_tunnel_base_A.png", TargetName = "OBJ_Sign_Steamtunnel_A_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_Sign_E.png", TargetName = "OBJ_Sign_Hotsteam_A", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_signs_tunnel_base_A.png", TargetName = "OBJ_Sign_Steamtunnel_C_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_signs_tunnel_base_A.png", TargetName = "OBJ_Sign_Steamtunnel_B_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_signs_tunnel_base_A.png", TargetName = "OBJ_Sign_Steamtunnel_E_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_Sign_D.png", TargetName = "OBJ_SignControlRoom_A_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_signs_tunnel_base_A.png", TargetName = "OBJ_Sign_Steamtunnel_D_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignQuincysQuonset_A.png", TargetName = "OBJ_SignQuincysQuonset_A_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_GasPump_B.png", TargetName = "OBJ_GasPump_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_GranolaBar_Dif.png", TargetName = "OBJ_CandyBoxD_LOD0", ExactName = true, SourceTextureName = "GEAR_GranolaBar_Mat"},
+                new TextureRule { TextureFile = "OBJ_RailwayTruck.png", TargetName = "OBJ_CarTruckDoorLeftEXT_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RailwayTruckCannery_A.png", TargetName = "", ExactName = true },
+                new TextureRule {TextureFile = "FX_DecalWolfScaredFlares_A01.png",TargetName = "Decal", SourceTextureName = "FX_DecalWolfScaredFlares_A01"},
                 new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
             });
 
@@ -374,7 +453,6 @@ namespace TranslatedTextures
                 if (stream == null)
                 {
                     MelonLogger.Error($"[TranslatedTextures] ❌ Not found: {resourceName}");
-                    // Вывести все доступные ресурсы для диагностики
                     string[] names = asm.GetManifestResourceNames();
                     MelonLogger.Msg($"[TranslatedTextures] Available resources ({names.Length}):");
                     foreach (var n in names)
@@ -428,9 +506,53 @@ namespace TranslatedTextures
             string resourceName = $"TranslatedTextures.Resources.Textures.Russian.{fileName}";
             string textureName = Path.GetFileNameWithoutExtension(fileName);
             Texture2D tex = LoadEmbeddedTexture(resourceName, textureName);
+
             if (tex != null)
+            {
                 LoadedTextures[fileName] = tex;
+
+                if (fileName.Contains("FX_DecalWolfScaredFlares"))
+                {
+                    ReplaceTexturePixels("FX_DecalWolfScaredFlares_A01", tex);
+                }
+            }
+
             return tex;
+        }
+
+        internal static void ForceReplaceWolfScared()
+        {
+            if (!LoadedTextures.TryGetValue("FX_DecalWolfScaredFlares_A01.png", out Texture2D newTex) || newTex == null)
+            {
+                MelonLogger.Warning("[Force] texture not loaded");
+                return;
+            }
+
+            int count = 0;
+            var allMats = Resources.FindObjectsOfTypeAll<Material>();
+
+            foreach (var mat in allMats)
+            {
+                if (mat == null) continue;
+
+                if (mat.mainTexture != null && mat.mainTexture.name.Contains("FX_DecalWolfScaredFlares_A01"))
+                {
+                    mat.mainTexture = newTex;
+                    count++;
+                }
+
+                if (mat.HasProperty("_MainTex"))
+                {
+                    var t = mat.GetTexture("_MainTex");
+                    if (t != null && t.name.Contains("FX_DecalWolfScaredFlares_A01"))
+                    {
+                        mat.SetTexture("_MainTex", newTex);
+                        count++;
+                    }
+                }
+            }
+
+            MelonLogger.Msg($"[Force] replaced in {count} materials");
         }
 
 
@@ -490,18 +612,8 @@ namespace TranslatedTextures
             foreach (MeshRenderer renderer in UnityEngine.Object.FindObjectsOfType<MeshRenderer>(true))
             {
                 if (renderer == null) continue;
-                string objName = renderer.gameObject.name;
+                string objName = NormalizeName(renderer.gameObject.name);
 
-                // ВРЕМЕННЫЙ ДЕБАГудет — логируем все бутылки
-                if (objName.Contains("Water500ml"))
-                {
-                    Material[] dbgMats = renderer.sharedMaterials;
-                    MelonLogger.Msg($"[WATER DEBUG] Found '{objName}', materials count: {dbgMats?.Length ?? 0}");
-                    if (dbgMats != null)
-                        for (int d = 0; d < dbgMats.Length; d++)
-                            MelonLogger.Msg($"[WATER DEBUG]   [{d}] '{(dbgMats[d] != null ? dbgMats[d].name : "null")}'" +
-                                $" mainTex='{(dbgMats[d]?.mainTexture != null ? dbgMats[d].mainTexture.name : "null")}'"); 
-                }
 
                 foreach (var rule in Rules)
                 {
@@ -523,10 +635,12 @@ namespace TranslatedTextures
                         if (!parentFound) continue;
                     }
 
+
                     Texture2D newTex = GetOrLoadTexture(rule.TextureFile);
                     if (newTex == null) continue;
 
                     Material[] mats = renderer.sharedMaterials;
+
                     bool changed = false;
 
                     for (int i = 0; i < mats.Length; i++)
@@ -552,9 +666,62 @@ namespace TranslatedTextures
                             if (dmgTex != null)
                                 mats[i].SetTexture(711, dmgTex);
                         }
+                        MaterialPropertyBlock block = new MaterialPropertyBlock();
+                        renderer.GetPropertyBlock(block, i);
+                        block.SetTexture("_MainTex", newTex);
+                        renderer.SetPropertyBlock(block, i);
                     }
 
                     if (changed) totalReplaced++;
+                }
+            }
+
+            foreach (Renderer renderer in UnityEngine.Object.FindObjectsOfType<Renderer>(true))
+            {
+                if (renderer is MeshRenderer) continue;
+                if (renderer == null) continue;
+
+                string objName = renderer.gameObject.name;
+                Material[] mats = renderer.sharedMaterials;
+                if (mats == null || mats.Length == 0) continue;
+
+                foreach (var rule in Rules)
+                {
+                    if (string.IsNullOrEmpty(rule.SourceTextureName)) continue;
+
+                    if (!string.IsNullOrEmpty(rule.TargetName) &&
+                        !objName.Contains(rule.TargetName)) continue;
+
+                    bool changed = false;
+
+                    for (int i = 0; i < mats.Length; i++)
+                    {
+                        if (mats[i] == null) continue;
+
+                        string matName = mats[i].name ?? "";
+                        Texture currentTex = mats[i].mainTexture;
+                        string texName = currentTex != null ? currentTex.name : "";
+
+                        if (!matName.Contains(rule.SourceTextureName) &&
+                            !texName.Contains(rule.SourceTextureName)) continue;
+
+                        Texture2D newTex = GetOrLoadTexture(rule.TextureFile);
+                        if (newTex == null) continue;
+
+                        mats[i].mainTexture = newTex;
+
+                        MaterialPropertyBlock block = new MaterialPropertyBlock();
+                        renderer.GetPropertyBlock(block, i);
+                        block.SetTexture("_MainTex", newTex);
+                        renderer.SetPropertyBlock(block, i);
+
+                        changed = true;
+                        MelonLogger.Msg($"[Renderer REPLACED] '{objName}' mat='{matName}' tex='{texName}' -> '{rule.TextureFile}'");
+                    }
+
+
+                    if (changed)
+                        renderer.sharedMaterials = mats;
                 }
             }
 
@@ -564,26 +731,6 @@ namespace TranslatedTextures
 
     [HarmonyPatch(typeof(Il2Cpp.GearItem), "Awake")]
     internal static class GearItem_Awake_Patch
-    {
-        static void Postfix(Il2Cpp.GearItem __instance)
-        {
-            if (__instance == null) return;
-            Main.ApplyTexturesToObject(__instance.gameObject);
-        }
-    }
-
-    [HarmonyPatch(typeof(Il2Cpp.GearItem), "Start")]
-    internal static class GearItem_Start_Patch
-    {
-        static void Postfix(Il2Cpp.GearItem __instance)
-        {
-            if (__instance == null) return;
-            Main.ApplyTexturesToObject(__instance.gameObject);
-        }
-    }
-
-    [HarmonyPatch(typeof(Il2Cpp.GearItem), "OnEnable")]
-    internal static class GearItem_OnEnable_Patch
     {
         static void Postfix(Il2Cpp.GearItem __instance)
         {
@@ -623,16 +770,6 @@ namespace TranslatedTextures
     internal static class Panel_Inventory_Enable_Patch
     {
         static void Postfix()
-        {
-            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            Main.ScheduleReplaceAfterDelay(sceneName);
-        }
-    }
-
-    [HarmonyPatch(typeof(Il2Cpp.GearItem), "PickUp")]
-    internal static class GearItem_PickUp_Patch
-    {
-        static void Postfix(Il2Cpp.GearItem __instance)
         {
             string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             Main.ScheduleReplaceAfterDelay(sceneName);
