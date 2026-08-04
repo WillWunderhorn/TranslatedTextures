@@ -213,6 +213,12 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignQuincysQuonset_A.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_GasPump_B.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\FX_DecalWolfScaredFlares_A01.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\FX_DecalGraffity_A09.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_FishingBoat_lower_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignCannery_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_LocomotiveA_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\FX_MaintenanceShedStoryDecal.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignMilton_C.png" /> 
 
   </ItemGroup>
 
