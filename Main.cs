@@ -45,168 +45,76 @@ namespace TranslatedTextures
             return System.Text.RegularExpressions.Regex.Replace(name, @"\s\(\d+\)$", "");
         }
 
-        // ===================== WolfScared  =====================
-        private static readonly List<Material> _wolfScaredMaterials = new List<Material>();
-        private static bool _wolfScaredMaterialsCached = false;
+        private static readonly Dictionary<string, List<Material>> _decalMaterialCache
+    = new Dictionary<string, List<Material>>();
 
-        internal static void ForceReplaceWolfScared(bool forceRescan = false)
+        private static readonly Dictionary<string, string> _decalTextureMap = new Dictionary<string, string>
+{
+    { "FX_DecalWolfScaredFlares_A01", "FX_DecalWolfScaredFlares_A01.png" },
+    { "FX_DecalGraffity_A09",         "FX_DecalGraffity_A09.png"         },
+    { "FX_MaintenanceShedStoryDecal", "FX_MaintenanceShedStoryDecal.png" },
+    { "FX_BusDecalBlackRock", "FX_BusDecalBlackRock.png" }
+};
+
+        internal static void ForceReplaceDecals(bool forceRescan = false)
         {
-            if (!LoadedTextures.TryGetValue("FX_DecalWolfScaredFlares_A01.png", out Texture2D newTex) || newTex == null)
-                return;
+            if (forceRescan)
+                _decalMaterialCache.Clear();
 
-            if (!_wolfScaredMaterialsCached || forceRescan)
+            bool needScan = false;
+            foreach (var key in _decalTextureMap.Keys)
+                if (!_decalMaterialCache.ContainsKey(key)) { needScan = true; break; }
+
+            if (needScan)
             {
-                _wolfScaredMaterials.Clear();
-                var allMats = Resources.FindObjectsOfTypeAll<Material>();
+                foreach (var key in _decalTextureMap.Keys)
+                    if (!_decalMaterialCache.ContainsKey(key))
+                        _decalMaterialCache[key] = new List<Material>();
 
-                foreach (var mat in allMats)
+                foreach (var mat in Resources.FindObjectsOfTypeAll<Material>())
                 {
                     if (mat == null) continue;
 
-                    bool uses = false;
-
-                    if (mat.mainTexture != null && mat.mainTexture.name.Contains("FX_DecalWolfScaredFlares_A01"))
-                        uses = true;
-                    else if (mat.HasProperty("_MainTex"))
+                    foreach (var kv in _decalTextureMap)
                     {
-                        var t = mat.GetTexture("_MainTex");
-                        if (t != null && t.name.Contains("FX_DecalWolfScaredFlares_A01"))
-                            uses = true;
-                    }
+                        string texKey = kv.Key;
+                        Texture mainTex = mat.mainTexture;
+                        if (mainTex != null && mainTex.name.Contains(texKey))
+                        { _decalMaterialCache[texKey].Add(mat); continue; }
 
-                    if (uses)
-                        _wolfScaredMaterials.Add(mat);
+                        if (mat.HasProperty("_MainTex"))
+                        {
+                            var t = mat.GetTexture("_MainTex");
+                            if (t != null && t.name.Contains(texKey))
+                                _decalMaterialCache[texKey].Add(mat);
+                        }
+                    }
                 }
 
-                _wolfScaredMaterialsCached = true;
-                MelonLogger.Msg($"[Force] cached {_wolfScaredMaterials.Count} materials");
+                MelonLogger.Msg($"[Decals] Scanned: " +
+                    string.Join(", ", System.Linq.Enumerable.Select(
+                        _decalMaterialCache, kv => $"{kv.Key}={kv.Value.Count}")));
             }
 
-            int updated = 0;
-            foreach (var mat in _wolfScaredMaterials)
+            foreach (var kv in _decalTextureMap)
             {
-                if (mat == null) continue;
+                string texKey = kv.Key;
+                string fileName = kv.Value;
 
-                mat.mainTexture = newTex;
-                if (mat.HasProperty("_MainTex"))
-                    mat.SetTexture("_MainTex", newTex);
+                if (!_decalMaterialCache.TryGetValue(texKey, out var mats) || mats.Count == 0) continue;
 
-                updated++;
-            }
+                Texture2D newTex = GetOrLoadTexture(fileName);
+                if (newTex == null) continue;
 
-            if (updated > 0)
-                MelonLogger.Msg($"[Force] updated {updated} materials");
-        }
-        // ==================================================================
-
-
-        // ===================== Future  =====================
-        private static readonly List<Material> _futureMaterials = new List<Material>();
-        private static bool _futureMaterialsCached = false;
-
-        internal static void ForceReplaceFuture(bool forceRescan = false)
-        {
-            if (!LoadedTextures.TryGetValue("FX_DecalGraffity_A09.png", out Texture2D newTex) || newTex == null)
-                return;
-
-            if (!_futureMaterialsCached || forceRescan)
-            {
-                _futureMaterials.Clear();
-                var allMats = Resources.FindObjectsOfTypeAll<Material>();
-
-                foreach (var mat in allMats)
+                foreach (var mat in mats)
                 {
                     if (mat == null) continue;
-
-                    bool uses = false;
-
-                    if (mat.mainTexture != null && mat.mainTexture.name.Contains("FX_DecalGraffity_A09"))
-                        uses = true;
-                    else if (mat.HasProperty("_MainTex"))
-                    {
-                        var t = mat.GetTexture("_MainTex");
-                        if (t != null && t.name.Contains("FX_DecalGraffity_A09"))
-                            uses = true;
-                    }
-
-                    if (uses)
-                        _futureMaterials.Add(mat);
+                    mat.mainTexture = newTex;
+                    if (mat.HasProperty("_MainTex"))
+                        mat.SetTexture("_MainTex", newTex);
                 }
-
-                _futureMaterialsCached = true;
-                MelonLogger.Msg($"[Force] cached {_futureMaterials.Count} materials");
             }
-
-            int updated = 0;
-            foreach (var mat in _futureMaterials)
-            {
-                if (mat == null) continue;
-
-                mat.mainTexture = newTex;
-                if (mat.HasProperty("_MainTex"))
-                    mat.SetTexture("_MainTex", newTex);
-
-                updated++;
-            }
-
-            if (updated > 0)
-                MelonLogger.Msg($"[Force] updated {updated} materials");
         }
-        // ==================================================================
-
-        // ===================== They hate the light  =====================
-        private static readonly List<Material> _lightMaterials = new List<Material>();
-        private static bool _lightMaterialsCached = false;
-
-        internal static void ForceReplaceLight(bool forceRescan = false)
-        {
-            if (!LoadedTextures.TryGetValue("FX_MaintenanceShedStoryDecal.png", out Texture2D newTex) || newTex == null)
-                return;
-
-            if (!_lightMaterialsCached || forceRescan)
-            {
-                _lightMaterials.Clear();
-                var allMats = Resources.FindObjectsOfTypeAll<Material>();
-
-                foreach (var mat in allMats)
-                {
-                    if (mat == null) continue;
-
-                    bool uses = false;
-
-                    if (mat.mainTexture != null && mat.mainTexture.name.Contains("FX_MaintenanceShedStoryDecal"))
-                        uses = true;
-                    else if (mat.HasProperty("_MainTex"))
-                    {
-                        var t = mat.GetTexture("_MainTex");
-                        if (t != null && t.name.Contains("FX_MaintenanceShedStoryDecal"))
-                            uses = true;
-                    }
-
-                    if (uses)
-                        _lightMaterials.Add(mat);
-                }
-
-                _lightMaterialsCached = true;
-                MelonLogger.Msg($"[Force] cached {_lightMaterials.Count} materials");
-            }
-
-            int updated = 0;
-            foreach (var mat in _lightMaterials)
-            {
-                if (mat == null) continue;
-
-                mat.mainTexture = newTex;
-                if (mat.HasProperty("_MainTex"))
-                    mat.SetTexture("_MainTex", newTex);
-
-                updated++;
-            }
-
-            if (updated > 0)
-                MelonLogger.Msg($"[Force] updated {updated} materials");
-        }
-        // ==================================================================
 
         internal static readonly List<TextureRule> Rules = BuildRules();
 
@@ -435,24 +343,66 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_SignQuincysQuonset_A.png", TargetName = "OBJ_SignQuincysQuonset_A_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_GasPump_B.png", TargetName = "OBJ_GasPump_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_GranolaBar_Dif.png", TargetName = "OBJ_CandyBoxD_LOD0", ExactName = true, SourceTextureName = "GEAR_GranolaBar_Mat" },
+                //new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxC_LOD0", ExactName = true, SourceTextureName = "OBJ_CardboardBoxes_A1" },
                 new TextureRule { TextureFile = "OBJ_RailwayTruck.png", TargetName = "OBJ_CarTruckDoorLeftEXT_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RailwayTruckCannery_A.png", TargetName = "", ExactName = true },
                 new TextureRule { TextureFile = "FX_DecalWolfScaredFlares_A01.png", TargetName = "Decal", SourceTextureName = "FX_DecalWolfScaredFlares_A01" },
+                new TextureRule { TextureFile = "FX_BusDecalBlackRock.png", TargetName = "Decal", SourceTextureName = "FX_BusDecalBlackRock" },
                 new TextureRule { TextureFile = "FX_DecalGraffity_A09.png", TargetName = "Decal", SourceTextureName = "FX_DecalGraffity_A09" },
                 new TextureRule { TextureFile = "OBJ_FishingBoat_lower_Dif.png", TargetName = "OBJ_FishingBoatA_Prefab", ExactName = true, SourceTextureName = "OBJ_FishingBoat_lower_Mat" },
                 new TextureRule { TextureFile = "OBJ_SignCannery_A.png", TargetName = "OBJ_SignCannarySmall_A", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignCannery_A.png", TargetName = "OBJ_SignCanneryBig_A", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_LocomotiveA_Dif.png", TargetName = "OBJ_LocomotiveA_LOD0", ExactName = true },
-                new TextureRule { TextureFile = "FX_MaintenanceShedStoryDecal.png", TargetName = "Decal", SourceTextureName = "Decal-320440" },
+                new TextureRule { TextureFile = "FX_MaintenanceShedStoryDecal.png", TargetName = "Decal", SourceTextureName = "Decal-320440" }, 
                 new TextureRule { TextureFile = "OBJ_SignMilton_C.png", TargetName = "OBJ_HuntingLodgeASign_LOD0", ExactName = true, SourceTextureName = "OBJ_SignMilton_C01" },
-                new TextureRule { TextureFile = ".png", TargetName = "OBJ_GasStationExteriorSignA_LOD0", ExactName = true, SourceTextureName = "OBJ_SignGasStation_A01" },
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "STR_ConvenienceStoreA_LOD0", ExactName = true, SourceTextureName = "OBJ_InteriorWallDecoStore_A01" },
+                new TextureRule { TextureFile = "OBJ_SignGasStation_A.png", TargetName = "OBJ_GasStationExteriorSignA_LOD0", ExactName = true, SourceTextureName = "OBJ_SignGasStation_A01"},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "STR_GasStationCanopy_LOD0", ExactName = true, SourceTextureName = "OBJ_InteriorWallDecoStore_A01" },
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign10_LOD0", ExactName = true, SourceTextureName = "OBJ_InteriorWallDecoStore_A01"},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign2_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign11_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_ConvenienceStoreNotes_Dif.png", TargetName = "OBJ_StoreSignNote5_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSignNote4_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign3_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_ConvenienceStoreNotes_Dif.png", TargetName = "OBJ_StoreSignNote2_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign9_LOD0", ExactName = true, SourceTextureName = "OBJ_InteriorWallDecoStore_A01"},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign1_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign12_LOD0", ExactName = true, SourceTextureName = "OBJ_InteriorWallDecoStore_A01"},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign4_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_StoreSign5_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_ConvenienceStoreNotes_Dif.png", TargetName = "OBJ_StoreSignNote3_Prefab", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_WetFloorSign_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_ConvenienceStoreNotes_Dif.png", TargetName = "OBJ_StoreSignNote1_LOD0", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_ConvenienceStoreNotes_Dif.png", TargetName = "OBJ_StoreSignNote6_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_InteriorCampOfficeDeco_A.png", TargetName = "OBJ_PictureFrameWelcomeSign_Prefab (PLACED)", ExactName = true},
+                new TextureRule { TextureFile = "OBJ_PosterCougar_A.png", TargetName = "OBJ_PosterCougar_A3_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "STR_PostOfficeASign_A.png", TargetName = "STR_PostOfficeA_LOD0", ExactName = true, SourceTextureName = "STR_PostOfficeASign_A01" },
+                new TextureRule { TextureFile = "OBJ_SignMilton_C.png", TargetName = "OBJ_PostOfficeSignB_LOD0", ExactName = true, SourceTextureName = "OBJ_SignMilton_C01" },
+                new TextureRule { TextureFile = "OBJ_SignCreditUnion_A.png", TargetName = "STR_BankA_LOD0", ExactName = true, SourceTextureName = "OBJ_CreditUnionSign_Mat" },
+                new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_NoCashNote_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_CandyStand.png", TargetName = "OBJ_CandyStand_LOD0", ExactName = true, SourceTextureName = "OBJ_CandyStand_Mat" },
+                new TextureRule { TextureFile = "STR_WaterTower_Dif.png", TargetName = "STR_WaterTower_LOD0", ExactName = true, SourceTextureName = "STR_WaterTower_Mat" },
+                new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxA_LOD0", ExactName = true },
+                
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PancakePeach", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PieMeat", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PorridgeFruit", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_Fishcakes", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PieFishermans", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_B.png", TargetName = "OBJ_RecipeCard_SoupPotato", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_B.png", TargetName = "OBJ_RecipeCard_BarPemmican", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_B.png", TargetName = "OBJ_RecipeCard_SoupRabbit", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PieForagers", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_StewMeat", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PiePredator", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_StewVegetables", ExactName = true },
                 new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
             });
 
             return rules;
         }
 
-        internal static readonly Dictionary<string, string> UITextureMap = new Dictionary<string, string>
+        internal static readonly Dictionary<string, string> UITextureMap = new Dictionary<string, string> 
         {
             { "ico_GearItem__PinnacleCanPeaches", "ico_GearItem__PinnacleCanPeaches.png" },
             { "ico_GearItem__TomatoSoupCan", "ico_GearItem__TomatoSoupCan.png" },
@@ -520,6 +470,19 @@ namespace TranslatedTextures
             { "ico_GearItem__BookCarcassHarvesting", "ico_GearItem__BookCarcassHarvesting.png" },
             { "ico_GearItem__BookFireStarting", "ico_GearItem__BookFireStarting.png" },
             { "ico_GearItem__CarBattery", "ico_GearItem__CarBattery.png" },
+            
+            { "ico_GearItem__RecipeCardPancakePeach", "ico_GearItem__RecipeCardPancakePeach.png" },
+            { "ico_GearItem__RecipeCardPieMeat", "ico_GearItem__RecipeCardPieMeat.png" },
+            { "ico_GearItem__RecipeCardPorridgeFruit", "ico_GearItem__RecipeCardPorridgeFruit.png" },
+            { "ico_GearItem__RecipeCardFishcakes", "ico_GearItem__RecipeCardFishcakes.png" },
+            { "ico_GearItem__RecipeCardPieFishermans", "ico_GearItem__RecipeCardPieFishermans.png" },
+            { "ico_GearItem__RecipeCardSoupPotato", "ico_GearItem__RecipeCardSoupPotato.png" },
+            { "ico_GearItem__RecipeCardBarPemmican", "ico_GearItem__RecipeCardBarPemmican.png" },
+            { "ico_GearItem__RecipeCardPieForagers", "ico_GearItem__RecipeCardPieForagers.png" },
+            { "ico_GearItem__RecipeCardSoupRabbit", "ico_GearItem__RecipeCardSoupRabbit.png" },
+            { "ico_GearItem__RecipeCardPiePredator", "ico_GearItem__RecipeCardPiePredator.png" },
+            { "ico_GearItem__RecipeCardStewMeat", "ico_GearItem__RecipeCardStewMeat.png" },
+            { "ico_GearItem__RecipeCardStewVegetables", "ico_GearItem__RecipeCardStewVegetables.png" },
         };
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();
@@ -643,16 +606,20 @@ namespace TranslatedTextures
                 string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
                 MelonLogger.Msg($"[TranslatedTextures] F7 forced reload: {sceneName}");
                 StaticReplaceTextures(sceneName);
-                ForceReplaceWolfScared(forceRescan: true); // полный перескан только по F7
-                ForceReplaceFuture(forceRescan: true); // полный перескан только по F7
+                ForceReplaceDecals();
             }
             else if (!isDown) _f7Pressed = false;
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            if (sceneName.Contains("_") || sceneName == "MainMenu" || sceneName == "MainMenu_DLC01" || sceneName == "Boot" || sceneName == "Empty") return;
+            if (sceneName == "MainMenu" || sceneName == "MainMenu_DLC01" ||
+                sceneName == "Boot" || sceneName == "Empty") return;
+
+            _decalMaterialCache.Clear();
+
             StaticReplaceTextures(sceneName);
+            ScheduleReplaceAfterDelay(sceneName);
         }
 
         internal static void StaticReplaceTextures(string sceneName)
@@ -771,10 +738,7 @@ namespace TranslatedTextures
                 }
             }
 
-            // Быстрое обновление из кэша
-            ForceReplaceWolfScared();
-            ForceReplaceFuture();
-            ForceReplaceLight();
+            ForceReplaceDecals();
 
             MelonLogger.Msg($"[TranslatedTextures] StaticReplace done: {totalReplaced} replaced");
         }
@@ -786,7 +750,21 @@ namespace TranslatedTextures
         static void Postfix(Il2Cpp.GearItem __instance)
         {
             if (__instance == null) return;
+
             Main.ApplyTexturesToObject(__instance.gameObject);
+
+            MelonCoroutines.Start(DelayedApply(__instance.gameObject));
+        }
+
+        private static System.Collections.IEnumerator DelayedApply(GameObject go)
+        {
+            yield return null;
+            if (go != null)
+                Main.ApplyTexturesToObject(go);
+
+            yield return new WaitForSeconds(0.2f);
+            if (go != null)
+                Main.ApplyTexturesToObject(go);
         }
     }
 

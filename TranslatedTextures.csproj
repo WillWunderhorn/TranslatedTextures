@@ -181,6 +181,18 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookHardcover_Survive.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookFireStarting.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_WaterBottleLabel.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPieMeat.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPorridgeFruit.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardFishcakes.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPieFishermans.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardSoupPotato.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardBarPemmican.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RecipeCards_B.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardSoupRabbit.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPieForagers.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardStewMeat.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPiePredator.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardStewVegetables.png" />
 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CarBattery.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDebrisA.png" /> 
@@ -219,6 +231,16 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_LocomotiveA_Dif.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\FX_MaintenanceShedStoryDecal.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignMilton_C.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignGasStation_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_InteriorWallDecoStore.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_ConvenienceStoreNotes_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\FX_BusDecalBlackRock.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\STR_PostOfficeASign_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignCreditUnion_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_CandyStand.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\STR_WaterTower_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RecipeCards_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPancakePeach.png" /> 
 
   </ItemGroup>
 
