@@ -343,7 +343,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_SignQuincysQuonset_A.png", TargetName = "OBJ_SignQuincysQuonset_A_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_GasPump_B.png", TargetName = "OBJ_GasPump_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_GranolaBar_Dif.png", TargetName = "OBJ_CandyBoxD_LOD0", ExactName = true, SourceTextureName = "GEAR_GranolaBar_Mat" },
-                //new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxC_LOD0", ExactName = true, SourceTextureName = "OBJ_CardboardBoxes_A1" },
+                //new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxC_LOD0", ExactName = true, SourceTextureName = "OBJ_CardboardBoxes_A1" }, 
                 new TextureRule { TextureFile = "OBJ_RailwayTruck.png", TargetName = "OBJ_CarTruckDoorLeftEXT_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RailwayTruckCannery_A.png", TargetName = "", ExactName = true },
                 new TextureRule { TextureFile = "FX_DecalWolfScaredFlares_A01.png", TargetName = "Decal", SourceTextureName = "FX_DecalWolfScaredFlares_A01" },
@@ -383,10 +383,9 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_CandyStand.png", TargetName = "OBJ_CandyStand_LOD0", ExactName = true, SourceTextureName = "OBJ_CandyStand_Mat" },
                 new TextureRule { TextureFile = "STR_WaterTower_Dif.png", TargetName = "STR_WaterTower_LOD0", ExactName = true, SourceTextureName = "STR_WaterTower_Mat" },
                 new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxA_LOD0", ExactName = true },
-                
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PancakePeach", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PieMeat", ExactName = true },
-                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PorridgeFruit", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PorridgeFruit", ExactName = true }, 
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_Fishcakes", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PieFishermans", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_B.png", TargetName = "OBJ_RecipeCard_SoupPotato", ExactName = true },
@@ -396,6 +395,20 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_StewMeat", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PiePredator", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_StewVegetables", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignMilton_A.png", TargetName = "OBJ_MiltonSign_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_RailStation_Signs.png", TargetName = "OBJ_Railstation_Sign_B", ExactName = true, SourceTextureName = "OBJ_RailStation_Signs" },
+                new TextureRule { TextureFile = "OBJ_RailStation_Signs.png", TargetName = "OBJ_RailStation_Sign_A", ExactName = true, SourceTextureName = "OBJ_RailStation_Signs" }, 
+                
+                //F
+                new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneA_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
+                new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneB_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
+                new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneC_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
+                new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneD_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
+                new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneE_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
+                new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneF_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
+
+                new TextureRule { TextureFile = ".png", TargetName = "OBJ_MineArea_SignJ_LOD0", ExactName = true, SourceTextureName = "OBJ_SignMilton_B01" }, //OBJ_SignMilton_B01 OBJ_MineSignAtlasA_Mat 
+                //new TextureRule { TextureFile = "TRN_SkyHorizonB_Dif.png", TargetName = "TRN_SkyHorizonA_Prefab", ExactName = true },
                 new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
             });
 
@@ -577,10 +590,6 @@ namespace TranslatedTextures
 
             _pendingTimers.Add(0.15f);
             _pendingTimers.Add(0.4f);
-            _pendingTimers.Add(0.9f);
-            _pendingTimers.Add(1.6f);
-            _pendingTimers.Add(2.5f);
-            _pendingTimers.Add(4.0f);
         }
 
         public override void OnUpdate()

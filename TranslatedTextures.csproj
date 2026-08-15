@@ -193,6 +193,9 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardStewMeat.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPiePredator.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardStewVegetables.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignMilton_A.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RailStation_Signs.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_GraveStonesA.png" />
 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CarBattery.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDebrisA.png" /> 
@@ -241,6 +244,7 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\STR_WaterTower_Dif.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RecipeCards_A.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPancakePeach.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\TRN_SkyHorizonB_Dif.png" /> 
 
   </ItemGroup>
 
