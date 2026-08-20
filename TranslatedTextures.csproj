@@ -196,6 +196,10 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignMilton_A.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RailStation_Signs.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_GraveStonesA.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__Camera.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\FX_DecalHangarSign.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignPosters.png" />
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_TransformerInterior_B_Dif.png" />
 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CarBattery.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDebrisA.png" /> 
@@ -244,7 +248,12 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\STR_WaterTower_Dif.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_RecipeCards_A.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPancakePeach.png" /> 
-	<EmbeddedResource Include="Resources\Textures\Russian\TRN_SkyHorizonB_Dif.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_MineSignAtlasA.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Airfield_Signs.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\FX_LangstonTrainLetters_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_Mountain_Pass_Signs_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_PotatoSackContainer_A.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Camera.png" /> 
 
   </ItemGroup>
 

@@ -53,7 +53,8 @@ namespace TranslatedTextures
     { "FX_DecalWolfScaredFlares_A01", "FX_DecalWolfScaredFlares_A01.png" },
     { "FX_DecalGraffity_A09",         "FX_DecalGraffity_A09.png"         },
     { "FX_MaintenanceShedStoryDecal", "FX_MaintenanceShedStoryDecal.png" },
-    { "FX_BusDecalBlackRock", "FX_BusDecalBlackRock.png" }
+    { "FX_BusDecalBlackRock", "FX_BusDecalBlackRock.png" },
+    //{ "FX_LangstonTrainLetters_A01", "FX_LangstonTrainLetters_A.png" } //FIX IT LATER
 };
 
         internal static void ForceReplaceDecals(bool forceRescan = false)
@@ -407,8 +408,27 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneE_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneF_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
 
-                new TextureRule { TextureFile = ".png", TargetName = "OBJ_MineArea_SignJ_LOD0", ExactName = true, SourceTextureName = "OBJ_SignMilton_B01" }, //OBJ_SignMilton_B01 OBJ_MineSignAtlasA_Mat 
-                //new TextureRule { TextureFile = "TRN_SkyHorizonB_Dif.png", TargetName = "TRN_SkyHorizonA_Prefab", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSignAtlasA.png", TargetName = "OBJ_MineArea_SignJ_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSignAtlasA_Mat" },
+                new TextureRule { TextureFile = "OBJ_Airfield_Signs.png", TargetName = "OBJ_PrisonDirectorySignA_LOD0", ExactName = true, SourceTextureName = "OBJ_Airfield_Signs" },
+                new TextureRule { TextureFile = "FX_LangstonTrainLetters_A.png", TargetName = "Decal", SourceTextureName = "FX_LangstonTrainLetters_A01" }, //LANGSTON TRAIN FIX IT LATER
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonLoadingAreaSignA_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_MineSignA_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSignA" },
+                new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_B.png", TargetName = "OBJ_MineArea_SignD_Prefab (PLACED)", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_MineSignB_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSignA" },
+                new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_A.png", TargetName = "OBJ_Blackrock_Mine_sign_D_Prefab", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_MineSignAtlasA.png", TargetName = "OBJ_SignThink_A_Prefab (PLACED)", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_Mountain_Pass_Signs_A.png", TargetName = "OBJ_Sign_Refuge_Cabin_A_Prefab", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_PotatoSackContainer_A.png", TargetName = "OBJ_PotatoSackContainer_LOD0", ExactName = true }, //POTATO SACK FIX IT LATER
+                new TextureRule { TextureFile = "GEAR_Camera.png", TargetName = "GEAR_Camera", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_Camera.png", TargetName = "OBJ_Camera_LOD0"},//CAMERA IN HANDS FIX IT LATER
+                new TextureRule { TextureFile = "FX_DecalHangarSign.png", TargetName = "STR_AF_Hangar_Sign_Prefab", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonExitSignA_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignPosters.png", TargetName = "OBJ_SignPostalLake_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignPosters.png", TargetName = "OBJ_SignPostalCoastal_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignPosters.png", TargetName = "OBJ_SignPostalWhaling_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_Airfield_Signs.png", TargetName = "OBJ_AirfieldTerminalSignB_Prefab (PLACED)", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_TransformerInterior_B_Dif.png", TargetName = "OBJ_TransformerInterior_B", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "OBJ_TransformerBatteryFixed_B", ExactName = true },
                 new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
             });
 
@@ -483,6 +503,7 @@ namespace TranslatedTextures
             { "ico_GearItem__BookCarcassHarvesting", "ico_GearItem__BookCarcassHarvesting.png" },
             { "ico_GearItem__BookFireStarting", "ico_GearItem__BookFireStarting.png" },
             { "ico_GearItem__CarBattery", "ico_GearItem__CarBattery.png" },
+            { "ico_GearItem__Camera", "ico_GearItem__Camera.png" },
             
             { "ico_GearItem__RecipeCardPancakePeach", "ico_GearItem__RecipeCardPancakePeach.png" },
             { "ico_GearItem__RecipeCardPieMeat", "ico_GearItem__RecipeCardPieMeat.png" },
@@ -529,16 +550,16 @@ namespace TranslatedTextures
                     return null;
                 }
 
-                Stream stream = asm.GetManifestResourceStream(resourceName);
+                using Stream stream = asm.GetManifestResourceStream(resourceName);
                 if (stream == null)
                 {
                     MelonLogger.Error($"[TranslatedTextures] ❌ Not found: {resourceName}");
                     return null;
                 }
 
-                byte[] bytes = new byte[stream.Length];
-                stream.Read(bytes, 0, bytes.Length);
-                stream.Close();
+                using var ms = new MemoryStream();
+                stream.CopyTo(ms);
+                byte[] bytes = ms.ToArray();
 
                 if (bytes.Length == 0)
                 {
@@ -547,6 +568,8 @@ namespace TranslatedTextures
                 }
 
                 Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+
+                // First try: treat the resource bytes as a standard image (png/jpg/etc)
                 if (ImageConversion.LoadImage(tex, bytes))
                 {
                     tex.name = textureName;
@@ -556,6 +579,39 @@ namespace TranslatedTextures
                     UnityEngine.Object.DontDestroyOnLoad(tex);
                     MelonLogger.Msg($"[TranslatedTextures] ✓ Loaded: {textureName} ({tex.width}x{tex.height})");
                     return tex;
+                }
+
+                // Fallback: some PSD resources were produced from PNG and may contain an embedded PNG blob.
+                // Try to locate PNG signature inside the resource and load that subsection.
+                byte[] pngSig = new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+                int idx = -1;
+                for (int i = 0; i <= bytes.Length - pngSig.Length; i++)
+                {
+                    bool match = true;
+                    for (int j = 0; j < pngSig.Length; j++)
+                    {
+                        if (bytes[i + j] != pngSig[j]) { match = false; break; }
+                    }
+                    if (match) { idx = i; break; }
+                }
+
+                if (idx >= 0)
+                {
+                    int pngLen = bytes.Length - idx;
+                    byte[] pngBytes = new byte[pngLen];
+                    System.Array.Copy(bytes, idx, pngBytes, 0, pngLen);
+
+                    Texture2D tex2 = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                    if (ImageConversion.LoadImage(tex2, pngBytes))
+                    {
+                        tex2.name = textureName;
+                        tex2.filterMode = FilterMode.Bilinear;
+                        tex2.wrapMode = TextureWrapMode.Clamp;
+                        tex2.hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideAndDontSave;
+                        UnityEngine.Object.DontDestroyOnLoad(tex2);
+                        MelonLogger.Msg($"[TranslatedTextures] ✓ Loaded (embedded PNG): {textureName} ({tex2.width}x{tex2.height})");
+                        return tex2;
+                    }
                 }
 
                 MelonLogger.Error($"[TranslatedTextures] ❌ ImageConversion failed for: {textureName}");
@@ -570,12 +626,23 @@ namespace TranslatedTextures
 
         internal static Texture2D GetOrLoadTexture(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName)) return null;
+            if (fileName == ".png") return null;
+
             if (LoadedTextures.TryGetValue(fileName, out Texture2D existing))
                 return existing;
 
             string resourceName = $"TranslatedTextures.Resources.Textures.Russian.{fileName}";
             string textureName = Path.GetFileNameWithoutExtension(fileName);
             Texture2D tex = LoadEmbeddedTexture(resourceName, textureName);
+
+            // If direct load failed for a PNG, try a PSD resource variant (common in the resources folder)
+            if (tex == null && Path.GetExtension(fileName).Equals(".png", System.StringComparison.OrdinalIgnoreCase))
+            {
+                string altFile = Path.ChangeExtension(fileName, ".psd");
+                string altResource = $"TranslatedTextures.Resources.Textures.Russian.{altFile}";
+                tex = LoadEmbeddedTexture(altResource, textureName);
+            }
 
             if (tex != null)
                 LoadedTextures[fileName] = tex;
@@ -626,6 +693,14 @@ namespace TranslatedTextures
                 sceneName == "Boot" || sceneName == "Empty") return;
 
             _decalMaterialCache.Clear();
+
+            MelonCoroutines.Start(DelayedSceneInit(sceneName));
+        }
+
+        private static System.Collections.IEnumerator DelayedSceneInit(string sceneName)
+        {
+
+            yield return null;
 
             StaticReplaceTextures(sceneName);
             ScheduleReplaceAfterDelay(sceneName);
