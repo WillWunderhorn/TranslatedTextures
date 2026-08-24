@@ -528,14 +528,14 @@ namespace TranslatedTextures
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();
 
-        private bool _f7Pressed = false;
+        //private bool _f7Pressed = false;
         private static readonly List<float> _pendingTimers = new List<float>();
         private static string _pendingSceneName = null;
 
-        public override void OnInitializeMelon()
-        {
-            LoggerInstance.Msg("[TranslatedTextures] Lazy loading enabled");
-        }
+        //public override void OnInitializeMelon()
+        //{
+        //    LoggerInstance.Msg("[TranslatedTextures] Lazy loading enabled");
+        //}
 
         private static Assembly _assembly = null;
 
@@ -560,7 +560,7 @@ namespace TranslatedTextures
                 using Stream stream = asm.GetManifestResourceStream(resourceName);
                 if (stream == null)
                 {
-                    MelonLogger.Error($"[TranslatedTextures] ❌ Not found: {resourceName}");
+                    MelonLogger.Error($"[TranslatedTextures] Not found: {resourceName}");
                     return null;
                 }
 
@@ -570,7 +570,7 @@ namespace TranslatedTextures
 
                 if (bytes.Length == 0)
                 {
-                    MelonLogger.Error($"[TranslatedTextures] ❌ Empty stream for: {resourceName}");
+                    MelonLogger.Error($"[TranslatedTextures] Empty stream for: {resourceName}");
                     return null;
                 }
 
@@ -618,12 +618,12 @@ namespace TranslatedTextures
                     }
                 }
 
-                //MelonLogger.Error($"[TranslatedTextures] ImageConversion failed for: {textureName}");
+                MelonLogger.Error($"[TranslatedTextures] ImageConversion failed for: {textureName}");
                 return null;
             }
             catch (System.Exception e)
             {
-                //MelonLogger.Error($"[TranslatedTextures] Exception loading '{resourceName}': {e.Message}");
+                MelonLogger.Error($"[TranslatedTextures] Exception loading '{resourceName}': {e.Message}");
                 return null;
             }
         }
@@ -678,16 +678,16 @@ namespace TranslatedTextures
                 if (_pendingTimers.Count == 0) _pendingSceneName = null;
             }
 
-            bool isDown = UnityEngine.Input.GetKey(UnityEngine.KeyCode.F7);
-            if (isDown && !_f7Pressed)
-            {
-                _f7Pressed = true;
-                string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-                //MelonLogger.Msg($"[TranslatedTextures] F7 forced reload: {sceneName}");
-                StaticReplaceTextures(sceneName);
-                ForceReplaceDecals(true);
-            }
-            else if (!isDown) _f7Pressed = false;
+            //bool isDown = UnityEngine.Input.GetKey(UnityEngine.KeyCode.F7);
+            //if (isDown && !_f7Pressed)
+            //{
+            //    _f7Pressed = true;
+            //    string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            //    //MelonLogger.Msg($"[TranslatedTextures] F7 forced reload: {sceneName}");
+            //    StaticReplaceTextures(sceneName);
+            //    ForceReplaceDecals(true);
+            //}
+            //else if (!isDown) _f7Pressed = false;
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
