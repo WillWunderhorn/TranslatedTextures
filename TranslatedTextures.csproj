@@ -180,7 +180,6 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookCarcassHarvesting.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_BookHardcover_Survive.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__BookFireStarting.png" />
-	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_WaterBottleLabel.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPieMeat.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardPorridgeFruit.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__RecipeCardFishcakes.png" />
@@ -200,6 +199,8 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\FX_DecalHangarSign.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_SignPosters.png" />
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_TransformerInterior_B_Dif.png" />
+	  
+	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_WaterBottleLabel.png" />
 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CarBattery.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\OBJ_IndustrialDebrisA.png" /> 

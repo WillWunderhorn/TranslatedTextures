@@ -1,8 +1,6 @@
 ﻿using MelonLoader;
 using UnityEngine;
-using System.IO;
 using System.Reflection;
-using System.Collections.Generic;
 using HarmonyLib;
 
 namespace TranslatedTextures
@@ -11,19 +9,19 @@ namespace TranslatedTextures
     {
         internal class TextureRule
         {
-            public string TextureFile { get; set; }
-            public string TargetName { get; set; }
-            public string ParentName { get; set; } = null;
-            public string SourceTextureName { get; set; } = null;
+            public string? TextureFile { get; set; }
+            public string? TargetName { get; set; }
+            public string? ParentName { get; set; } = null;
+            public string? SourceTextureName { get; set; } = null;
             public bool ExactName { get; set; } = false;
-            public string DamageTextureFile { get; set; } = null;
+            public string? DamageTextureFile { get; set; } = null;
         }
 
         private class CannedGearDef
         {
-            public string TextureFile { get; set; }
-            public string SourceTextureName { get; set; }
-            public string ParentName { get; set; } = null;
+            public string? TextureFile { get; set; }
+            public string? SourceTextureName { get; set; }
+            public string? ParentName { get; set; } = null;
             public string[] MeshNames { get; set; } = { "CannedFoodMesh", "CannedFoodMesh_Old" };
             public string LidSourceName { get; set; } = "GEAR_CanLid_Dif";
             public string LidTextureFile { get; set; } = "GEAR_CanLid_Dif.png";
@@ -45,18 +43,17 @@ namespace TranslatedTextures
             return System.Text.RegularExpressions.Regex.Replace(name, @"\s\(\d+\)$", "");
         }
 
-        private static readonly Dictionary<string, List<Material>> _decalMaterialCache
-    = new Dictionary<string, List<Material>>();
+        private static readonly Dictionary<string, List<Material>> _decalMaterialCache = new Dictionary<string, List<Material>>();
 
         private static readonly Dictionary<string, string> _decalTextureMap = new Dictionary<string, string>
-{
-    { "FX_DecalWolfScaredFlares_A01", "FX_DecalWolfScaredFlares_A01.png" },
-    { "FX_DecalGraffity_A09",         "FX_DecalGraffity_A09.png"         },
-    { "FX_MaintenanceShedStoryDecal", "FX_MaintenanceShedStoryDecal.png" },
-    { "FX_BusDecalBlackRock", "FX_BusDecalBlackRock.png" },
-    //{ "FX_LangstonTrainLetters_A01", "FX_LangstonTrainLetters_A.png" } //FIX IT LATER
-};
-
+        {
+            { "FX_DecalWolfScaredFlares_A01", "FX_DecalWolfScaredFlares_A01.png" },
+            { "FX_DecalGraffity_A09",         "FX_DecalGraffity_A09.png"         },
+            { "FX_MaintenanceShedStoryDecal", "FX_MaintenanceShedStoryDecal.png" },
+            { "FX_BusDecalBlackRock", "FX_BusDecalBlackRock.png" },
+            { "FX_LangstonTrainLetters_A01", "FX_LangstonTrainLetters_A.png" }, 
+        };
+        //maybe fix this in future versions?
         internal static void ForceReplaceDecals(bool forceRescan = false)
         {
             if (forceRescan)
@@ -79,10 +76,15 @@ namespace TranslatedTextures
                     foreach (var kv in _decalTextureMap)
                     {
                         string texKey = kv.Key;
+                        if (mat.name != null && mat.name.Contains(texKey))
+                        {
+                            _decalMaterialCache[texKey].Add(mat);
+                            continue;
+                        }
+
                         Texture mainTex = mat.mainTexture;
                         if (mainTex != null && mainTex.name.Contains(texKey))
                         { _decalMaterialCache[texKey].Add(mat); continue; }
-
                         if (mat.HasProperty("_MainTex"))
                         {
                             var t = mat.GetTexture("_MainTex");
@@ -92,9 +94,9 @@ namespace TranslatedTextures
                     }
                 }
 
-                MelonLogger.Msg($"[Decals] Scanned: " +
-                    string.Join(", ", System.Linq.Enumerable.Select(
-                        _decalMaterialCache, kv => $"{kv.Key}={kv.Value.Count}")));
+                //MelonLogger.Msg($"[Decals] Scanned: " +
+                //    string.Join(", ", System.Linq.Enumerable.Select(
+                //        _decalMaterialCache, kv => $"{kv.Key}={kv.Value.Count}")));
             }
 
             foreach (var kv in _decalTextureMap)
@@ -113,6 +115,8 @@ namespace TranslatedTextures
                     mat.mainTexture = newTex;
                     if (mat.HasProperty("_MainTex"))
                         mat.SetTexture("_MainTex", newTex);
+                    if (mat.HasProperty("_BaseMap"))
+                        mat.SetTexture("_BaseMap", newTex);
                 }
             }
         }
@@ -169,17 +173,13 @@ namespace TranslatedTextures
 
                         mats[i].mainTexture = newTex;
 
+
                         if (rule.DamageTextureFile != null)
                         {
                             Texture2D dmgTex = GetOrLoadTexture(rule.DamageTextureFile);
                             if (dmgTex != null)
                                 mats[i].SetTexture(711, dmgTex);
                         }
-
-                        MaterialPropertyBlock block = new MaterialPropertyBlock();
-                        renderer.GetPropertyBlock(block, i);
-                        block.SetTexture("_MainTex", newTex);
-                        renderer.SetPropertyBlock(block, i);
                     }
                 }
             }
@@ -224,6 +224,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "GEAR_RevolverAmmoBox_Dif.png", TargetName = "RevolverAmmoBox_LOD1", SourceTextureName = "GEAR_RevolverAmmoBox_Dif" },
                 new TextureRule { TextureFile = "GEAR_RevolverAmmoBox_Dif.png", TargetName = "RifleAmmoBox_Old", SourceTextureName = "GEAR_RevolverAmmoBox_Dif" },
                 new TextureRule { TextureFile = "GEAR_RevolverAmmoBox_Dif.png", TargetName = "GEAR_RevolverAmmoBox", SourceTextureName = "GEAR_RevolverAmmoBox_Dif" },
+                new TextureRule { TextureFile = "GEAR_Matches_Dif.png", TargetName = "Matches", ExactName = true, SourceTextureName = "GEAR_Matches_Mat" },
                 new TextureRule { TextureFile = "GEAR_Matches_Dif.png", TargetName = "OBJ_WoodMatches_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_Matches_Dif.png", TargetName = "OBJ_WoodMatches_LOD1", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_AccelerantLighterFuel_Dif.png", TargetName = "Accelerant_LOD0", ExactName = true },
@@ -235,7 +236,6 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "GEAR_Flare_Dif.png", TargetName = "UncappedFlareMesh", SourceTextureName = "GEAR_Flare_Mat" },
                 new TextureRule { TextureFile = "GEAR_Flare_Blue_Dif.png", TargetName = "UncappedFlareMesh", SourceTextureName = "GEAR_Flare_Blue_Mat" },
                 new TextureRule { TextureFile = "GEAR_SewingKit_Dif.png", TargetName = "SewingKitMesh", ExactName = true },
-                new TextureRule { TextureFile = "OBJ_SulfurBag_Dif.png", TargetName = "ScrapMetal_LOD0", ParentName = "GEAR_DustingSulfur" },
                 new TextureRule { TextureFile = "GEAR_CoffeeTin_Dif.png", TargetName = "OBJ_CoffeeTin_LOD0", SourceTextureName = "GEAR_CoffeeTin_Dif" },
                 new TextureRule { TextureFile = "GEAR_CoffeeTin_Dif.png", TargetName = "OBJ_CoffeeTin_LOD1", SourceTextureName = "GEAR_CoffeeTin_Dif" },
                 new TextureRule { TextureFile = "GEAR_CoffeeTinLid_Dif.png", TargetName = "OBJ_CoffeeTin_LOD0", SourceTextureName = "GEAR_CoffeeTinLid_Dif" },
@@ -254,16 +254,11 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "GEAR_DriedApples.png", TargetName = "OBJ_DriedApples_LOD0", SourceTextureName = "GEAR_DriedApples" },
                 new TextureRule { TextureFile = "GEAR_KetchupChips_Dif.png", TargetName = "BeefJerky_LOD0", SourceTextureName = "GEAR_KetchupChips_Dif" },
                 new TextureRule { TextureFile = "GEAR_SaltBag.png", TargetName = "OBJ_SaltBag_LOD0", SourceTextureName = "GEAR_SaltBag" },
-                new TextureRule { TextureFile = "OBJ_HeatPad.png", TargetName = "OBJ_HeatPad", SourceTextureName = "OBJ_HeatPad" },
                 new TextureRule { TextureFile = "GEAR_FoodMRE_Dif.png", TargetName = "Obj_FoodMRE_LOD0", SourceTextureName = "GEAR_FoodMRE_Dif" },
                 new TextureRule { TextureFile = "GEAR_FoodEnergyBar_Dif.png", TargetName = "CandyBarMesh_LOD0", SourceTextureName = "GEAR_FoodEnergyBar_Dif" },
                 new TextureRule { TextureFile = "GEAR_WaterPurificationTablets_Dif.png", TargetName = "WaterPurificationTablets_LOD0", SourceTextureName = "GEAR_WaterPurificationTablets_Dif" },
-                new TextureRule { TextureFile = "CLTH_ACC_BallisticVest.png", TargetName = "OBJ_BallisticVest_LOD0", SourceTextureName = "CLTH_ACC_BallisticVest" },
                 new TextureRule { TextureFile = "GEAR_FoodBeefJerky_Dif.png", TargetName = "BeefJerky_LOD0", SourceTextureName = "GEAR_FoodBeefJerky_Dif" },
-                new TextureRule { TextureFile = "OBJ_Cash_Dif.png", TargetName = "OBJ_CashBundle" },
                 new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "CandyBarMesh", SourceTextureName = "GEAR_FoodCandyBars_Mat" },
-                new TextureRule { TextureFile = "OBJ_FoodEnergyDrink_A.png", TargetName = "OBJ_FoodEnergyDrink_A", SourceTextureName = "OBJ_FoodEnergyDrink_A" },
-                new TextureRule { TextureFile = "OBJ_CaffeineBox.png", TargetName = "OBJ_CaffeineBox", SourceTextureName = "OBJ_CaffeineBox" },
                 new TextureRule { TextureFile = "GEAR_GreenTeaPackage_Dif.png", TargetName = "OBJ_GreenTeaPackage_LOD0", SourceTextureName = "GEAR_GreenTeaPackage_Dif" },
                 new TextureRule { TextureFile = "GEAR_GunpowderCan_Dif.png", TargetName = "GunpowderCan_LOD0", SourceTextureName = "GEAR_GunpowderCan_Dif" },
                 new TextureRule { TextureFile = "GEAR_Cereal_A.png", TargetName = "OBJ_CerealBox_LOD0", SourceTextureName = "GEAR_Cereal_A" },
@@ -271,9 +266,30 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "GEAR_FlourBag.png", TargetName = "OBJ_FlourBag_LOD0", SourceTextureName = "GEAR_FlourBag" },
                 new TextureRule { TextureFile = "GEAR_InsulatedFlask_G.png", TargetName = "OBJ_InsulatedFlask_LOD0", SourceTextureName = "GEAR_InsulatedFlask_G" },
                 new TextureRule { TextureFile = "GEAR_MapleSyrup_Dif.png", TargetName = "PeanutButter_LOD0", SourceTextureName = "GEAR_MapleSyrup_Dif" },
-                new TextureRule { TextureFile = "OBJ_PotassiumNitrate_Dif.png", TargetName = "ScrapMetal_LOD0", ParentName = "GEAR_StumpRemover" },
-                new TextureRule { TextureFile = "GEAR_LampFuel_Dif.png", TargetName = "LampFuel_LOD0" },
                 new TextureRule { TextureFile = "GEAR_LampFuel_Dif.png", TargetName = "LampFuel" },
+                new TextureRule { TextureFile = "GEAR_LampFuel_Dif.png", TargetName = "LampFuel_LOD0" },
+                new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "CarBattery_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_WaterBottleLabel.png", TargetName = "Water500ml_LOD0", ExactName = true, SourceTextureName = "GEAR_WaterBottleLabel_Mat" },
+                new TextureRule { TextureFile = "GEAR_WaterBottleLabel.png", TargetName = "Water1000ml_LOD0", ExactName = true, SourceTextureName = "GEAR_WaterBottleLabel_Mat" },
+                new TextureRule { TextureFile = "GLB_MetalRusted_D.png", TargetName = "OBJ_SignDamEntrance_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "CLTH_ACC_BallisticVest.png", TargetName = "OBJ_BallisticVest_LOD0", SourceTextureName = "CLTH_ACC_BallisticVest" },
+                new TextureRule { TextureFile = "STR_CrashedAirliner.png", TargetName = "OBJ_PlaneMainBody_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "TEX_PrisonBus_Complete_BRtext.png", TargetName = "OBJ_PrisonBus_Complete_text", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_GranolaBar_Dif.png", TargetName = "OBJ_CandyBoxD_LOD0", ExactName = true, SourceTextureName = "GEAR_GranolaBar_Mat" },
+                //new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxC_LOD0", ExactName = true, SourceTextureName = "OBJ_CardboardBoxes_A1" }, 
+                new TextureRule { TextureFile = "FX_DecalWolfScaredFlares_A01.png", TargetName = "Decal", SourceTextureName = "FX_DecalWolfScaredFlares_A01" },
+                new TextureRule { TextureFile = "FX_BusDecalBlackRock.png", TargetName = "Decal", SourceTextureName = "FX_BusDecalBlackRock" },
+                new TextureRule { TextureFile = "FX_DecalGraffity_A09.png", TargetName = "Decal", SourceTextureName = "FX_DecalGraffity_A09" },
+                new TextureRule { TextureFile = "FX_MaintenanceShedStoryDecal.png", TargetName = "Decal", SourceTextureName = "Decal-320440" }, 
+                new TextureRule { TextureFile = "STR_PostOfficeASign_A.png", TargetName = "STR_PostOfficeA_LOD0", ExactName = true, SourceTextureName = "STR_PostOfficeASign_A01" },
+                new TextureRule { TextureFile = "STR_WaterTower_Dif.png", TargetName = "STR_WaterTower_LOD0", ExactName = true, SourceTextureName = "STR_WaterTower_Mat" },
+                new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxA_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SulfurBag_Dif.png", TargetName = "ScrapMetal_LOD0", ParentName = "GEAR_DustingSulfur" },
+                new TextureRule { TextureFile = "OBJ_FoodEnergyDrink_A.png", TargetName = "OBJ_FoodEnergyDrink_A", SourceTextureName = "OBJ_FoodEnergyDrink_A" },
+                new TextureRule { TextureFile = "OBJ_CaffeineBox.png", TargetName = "OBJ_CaffeineBox", SourceTextureName = "OBJ_CaffeineBox" },
+                new TextureRule { TextureFile = "OBJ_PotassiumNitrate_Dif.png", TargetName = "ScrapMetal_LOD0", ParentName = "GEAR_StumpRemover" },
+                new TextureRule { TextureFile = "OBJ_Cash_Dif.png", TargetName = "OBJ_CashBundle" },
+                new TextureRule { TextureFile = "OBJ_HeatPad.png", TargetName = "OBJ_HeatPad", SourceTextureName = "OBJ_HeatPad" },
                 new TextureRule { TextureFile = "OBJ_BookRevolver_A.png", TargetName = "Mesh", SourceTextureName = "OBJ_BookRevolver_A" },
                 new TextureRule { TextureFile = "OBJ_BookHardcover_Cooking.png", TargetName = "Mesh", ParentName = "GEAR_BookCooking", SourceTextureName = "OBJ_Book_Cooking_Mat" },
                 new TextureRule { TextureFile = "OBJ_BookSoftcover_Frontier.png", TargetName = "Mesh", ParentName = "GEAR_BookRifleFirearm", SourceTextureName = "OBJ_Book_Frontier_Mat" },
@@ -286,12 +302,9 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_BookHardcover_Survive.png", TargetName = "Mesh", ParentName = "GEAR_BookFireStarting", SourceTextureName = "OBJ_Book_FireStarting_Mat" },
                 new TextureRule { TextureFile = "OBJ_Sign_C.png", TargetName = "OBJ_RoadSignI_LOD0", SourceTextureName = "OBJ_Sign_C01" },
                 new TextureRule { TextureFile = "OBJ_Sign_C.png", TargetName = "OBJ_RoadSignI_LOD1", SourceTextureName = "OBJ_Sign_C01" },
-                new TextureRule { TextureFile = "GLB_MetalRusted_D.png", TargetName = "OBJ_SignDamEntrance_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamCarterB_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignDam_A.png", TargetName = "OBJ_SignDamCarterB_LOD1", ExactName = true },
-                new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "CarBattery_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RailwayTruck.png", TargetName = "OBJ_CarTruckDoorEXT_LOD0", ExactName = true, SourceTextureName = "OBJ_RailwayTruck" },
-                new TextureRule { TextureFile = "GEAR_WaterBottleLabel.png", TargetName = "Water500ml_LOD0", ExactName = true, SourceTextureName = "GEAR_WaterBottleLabel" },
                 new TextureRule { TextureFile = "OBJ_IndustrialDebrisA.png", TargetName = "OBJ_IndustrailDebrisC_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_Sign_D.png", TargetName = "OBJ_SignDam_B_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_Sign_D.png", TargetName = "OBJ_SignDam_A_LOD0", ExactName = true },
@@ -312,9 +325,8 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_Foreclosed_A.png", TargetName = "OBJ_Thomson_Foreclosure_B_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_Thompson_Signs_A.png", TargetName = "STR_Thompson_Store_LOD0", ExactName = true, SourceTextureName = "STR_Thomson_Signs_A" },
                 new TextureRule { TextureFile = "OBJ_PosterGarden.png", TargetName = "OBJ_Poster_VictoryGarden", ExactName = true },
-                new TextureRule { TextureFile = "OBJ_SignStop_A.png", TargetName = "OBJ_SignStopB_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "OBJ_SignStop_A.png", TargetName = "OBJ_SignStopB_LOD0", ExactName = true, SourceTextureName = "OBJ_SignStop_A02" },
                 new TextureRule { TextureFile = "OBJ_RoadsideStand_A.png", TargetName = "STR_RoadsideStand_A_LOD0", ExactName = true, SourceTextureName = "OBJ_RoadsideStand_A" },
-                new TextureRule { TextureFile = "STR_CrashedAirliner.png", TargetName = "OBJ_PlaneMainBody_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_PlanePartsA_Dif.png", TargetName = "OBJ_PlaneTail_Prefab", SourceTextureName = "OBJ_PlanePartsA_Mat" },
                 new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_B.png", TargetName = "OBJ_Blackrock_Mine_sign_E_Prefab", ExactName = true, SourceTextureName = "OBJ_Blackrockmine_signs_B" },
                 new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_A.png", TargetName = "OBJ_Blackrock_Mine_sign_B_Prefab", ExactName = true, SourceTextureName = "OBJ_Blackrockmine_signs_A" },
@@ -330,7 +342,6 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonStopCheckSignA_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_SignPrisonD_LOD0", ExactName = true, SourceTextureName = "OBJ_MineandPrisonSignA" },
                 new TextureRule { TextureFile = "OBJ_BlackrockPower_Signs.png", TargetName = "OBJ_PrisonDirectorySignA_LOD0", ExactName = true, SourceTextureName = "OBJ_Sign_G01" },
-                new TextureRule { TextureFile = "TEX_PrisonBus_Complete_BRtext.png", TargetName = "OBJ_PrisonBus_Complete_text", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_C.png", TargetName = "OBJ_PrisonInfirmarySignA_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_E.png", TargetName = "OBJ_ClipBoardPapers_A", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_E.png", TargetName = "OBJ_BuisnessCard_A_Prefab", ExactName = true },
@@ -343,18 +354,12 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_signs_tunnel_base_A.png", TargetName = "OBJ_Sign_Steamtunnel_D_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignQuincysQuonset_A.png", TargetName = "OBJ_SignQuincysQuonset_A_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_GasPump_B.png", TargetName = "OBJ_GasPump_LOD0", ExactName = true },
-                new TextureRule { TextureFile = "GEAR_GranolaBar_Dif.png", TargetName = "OBJ_CandyBoxD_LOD0", ExactName = true, SourceTextureName = "GEAR_GranolaBar_Mat" },
-                //new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxC_LOD0", ExactName = true, SourceTextureName = "OBJ_CardboardBoxes_A1" }, 
                 new TextureRule { TextureFile = "OBJ_RailwayTruck.png", TargetName = "OBJ_CarTruckDoorLeftEXT_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RailwayTruckCannery_A.png", TargetName = "", ExactName = true },
-                new TextureRule { TextureFile = "FX_DecalWolfScaredFlares_A01.png", TargetName = "Decal", SourceTextureName = "FX_DecalWolfScaredFlares_A01" },
-                new TextureRule { TextureFile = "FX_BusDecalBlackRock.png", TargetName = "Decal", SourceTextureName = "FX_BusDecalBlackRock" },
-                new TextureRule { TextureFile = "FX_DecalGraffity_A09.png", TargetName = "Decal", SourceTextureName = "FX_DecalGraffity_A09" },
                 new TextureRule { TextureFile = "OBJ_FishingBoat_lower_Dif.png", TargetName = "OBJ_FishingBoatA_Prefab", ExactName = true, SourceTextureName = "OBJ_FishingBoat_lower_Mat" },
                 new TextureRule { TextureFile = "OBJ_SignCannery_A.png", TargetName = "OBJ_SignCannarySmall_A", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignCannery_A.png", TargetName = "OBJ_SignCanneryBig_A", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_LocomotiveA_Dif.png", TargetName = "OBJ_LocomotiveA_LOD0", ExactName = true },
-                new TextureRule { TextureFile = "FX_MaintenanceShedStoryDecal.png", TargetName = "Decal", SourceTextureName = "Decal-320440" }, 
                 new TextureRule { TextureFile = "OBJ_SignMilton_C.png", TargetName = "OBJ_HuntingLodgeASign_LOD0", ExactName = true, SourceTextureName = "OBJ_SignMilton_C01" },
                 new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "STR_ConvenienceStoreA_LOD0", ExactName = true, SourceTextureName = "OBJ_InteriorWallDecoStore_A01" },
                 new TextureRule { TextureFile = "OBJ_SignGasStation_A.png", TargetName = "OBJ_GasStationExteriorSignA_LOD0", ExactName = true, SourceTextureName = "OBJ_SignGasStation_A01"},
@@ -377,13 +382,10 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_ConvenienceStoreNotes_Dif.png", TargetName = "OBJ_StoreSignNote6_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_InteriorCampOfficeDeco_A.png", TargetName = "OBJ_PictureFrameWelcomeSign_Prefab (PLACED)", ExactName = true},
                 new TextureRule { TextureFile = "OBJ_PosterCougar_A.png", TargetName = "OBJ_PosterCougar_A3_LOD0", ExactName = true },
-                new TextureRule { TextureFile = "STR_PostOfficeASign_A.png", TargetName = "STR_PostOfficeA_LOD0", ExactName = true, SourceTextureName = "STR_PostOfficeASign_A01" },
                 new TextureRule { TextureFile = "OBJ_SignMilton_C.png", TargetName = "OBJ_PostOfficeSignB_LOD0", ExactName = true, SourceTextureName = "OBJ_SignMilton_C01" },
                 new TextureRule { TextureFile = "OBJ_SignCreditUnion_A.png", TargetName = "STR_BankA_LOD0", ExactName = true, SourceTextureName = "OBJ_CreditUnionSign_Mat" },
                 new TextureRule { TextureFile = "OBJ_InteriorWallDecoStore.png", TargetName = "OBJ_NoCashNote_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_CandyStand.png", TargetName = "OBJ_CandyStand_LOD0", ExactName = true, SourceTextureName = "OBJ_CandyStand_Mat" },
-                new TextureRule { TextureFile = "STR_WaterTower_Dif.png", TargetName = "STR_WaterTower_LOD0", ExactName = true, SourceTextureName = "STR_WaterTower_Mat" },
-                new TextureRule { TextureFile = "GEAR_FoodCandyBars_Dif.png", TargetName = "OBJ_CandyBoxA_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PancakePeach", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PieMeat", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_RecipeCards_A.png", TargetName = "OBJ_RecipeCard_PorridgeFruit", ExactName = true }, 
@@ -400,7 +402,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_RailStation_Signs.png", TargetName = "OBJ_Railstation_Sign_B", ExactName = true, SourceTextureName = "OBJ_RailStation_Signs" },
                 new TextureRule { TextureFile = "OBJ_RailStation_Signs.png", TargetName = "OBJ_RailStation_Sign_A", ExactName = true, SourceTextureName = "OBJ_RailStation_Signs" }, 
                 
-                //F
+                //Graves
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneA_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneB_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneC_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
@@ -408,9 +410,12 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneE_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
                 new TextureRule { TextureFile = "OBJ_GraveStonesA.png", TargetName = "OBJ_GraveStoneF_LOD0", ExactName = true, SourceTextureName = "OBJ_GraveStonesA_Mat" },
 
+                new TextureRule { TextureFile = "GEAR_PotatoSackContainer_A.png", TargetName = "OBJ_PotatoSackContainer_LOD0", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_Camera.png", TargetName = "GEAR_Camera", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_Camera.png", TargetName = "OBJ_Camera_LOD0"},//CAMERA IN HANDS FIXED!
+                new TextureRule { TextureFile = "FX_DecalHangarSign.png", TargetName = "STR_AF_Hangar_Sign_Prefab", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_MineSignAtlasA.png", TargetName = "OBJ_MineArea_SignJ_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSignAtlasA_Mat" },
                 new TextureRule { TextureFile = "OBJ_Airfield_Signs.png", TargetName = "OBJ_PrisonDirectorySignA_LOD0", ExactName = true, SourceTextureName = "OBJ_Airfield_Signs" },
-                new TextureRule { TextureFile = "FX_LangstonTrainLetters_A.png", TargetName = "Decal", SourceTextureName = "FX_LangstonTrainLetters_A01" }, //LANGSTON TRAIN FIX IT LATER
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonLoadingAreaSignA_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_MineSigns_A.png", TargetName = "OBJ_MineSignA_LOD0", ExactName = true, SourceTextureName = "OBJ_MineSignA" },
                 new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_B.png", TargetName = "OBJ_MineArea_SignD_Prefab (PLACED)", ExactName = true },
@@ -418,10 +423,6 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_BlackRockMineA_Signs_Base_A.png", TargetName = "OBJ_Blackrock_Mine_sign_D_Prefab", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_MineSignAtlasA.png", TargetName = "OBJ_SignThink_A_Prefab (PLACED)", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_Mountain_Pass_Signs_A.png", TargetName = "OBJ_Sign_Refuge_Cabin_A_Prefab", ExactName = true },
-                new TextureRule { TextureFile = "GEAR_PotatoSackContainer_A.png", TargetName = "OBJ_PotatoSackContainer_LOD0", ExactName = true }, //POTATO SACK FIX IT LATER
-                new TextureRule { TextureFile = "GEAR_Camera.png", TargetName = "GEAR_Camera", ExactName = true },
-                new TextureRule { TextureFile = "GEAR_Camera.png", TargetName = "OBJ_Camera_LOD0"},//CAMERA IN HANDS FIX IT LATER
-                new TextureRule { TextureFile = "FX_DecalHangarSign.png", TargetName = "STR_AF_Hangar_Sign_Prefab", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_IndustrialDeco_D.png", TargetName = "OBJ_PrisonExitSignA_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignPosters.png", TargetName = "OBJ_SignPostalLake_LOD0", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_SignPosters.png", TargetName = "OBJ_SignPostalCoastal_LOD0", ExactName = true },
@@ -429,6 +430,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_Airfield_Signs.png", TargetName = "OBJ_AirfieldTerminalSignB_Prefab (PLACED)", ExactName = true },
                 new TextureRule { TextureFile = "OBJ_TransformerInterior_B_Dif.png", TargetName = "OBJ_TransformerInterior_B", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "OBJ_TransformerBatteryFixed_B", ExactName = true },
+                new TextureRule { TextureFile = "GEAR_FoodMRE_Dif.png", TargetName = "OBJ_MREWrapper_Old", ExactName = true },
                 new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
             });
 
@@ -437,6 +439,7 @@ namespace TranslatedTextures
 
         internal static readonly Dictionary<string, string> UITextureMap = new Dictionary<string, string> 
         {
+            // icons
             { "ico_GearItem__PinnacleCanPeaches", "ico_GearItem__PinnacleCanPeaches.png" },
             { "ico_GearItem__TomatoSoupCan", "ico_GearItem__TomatoSoupCan.png" },
             { "ico_GearItem__WoodMatches", "ico_GearItem__WoodMatches.png" },
@@ -504,7 +507,6 @@ namespace TranslatedTextures
             { "ico_GearItem__BookFireStarting", "ico_GearItem__BookFireStarting.png" },
             { "ico_GearItem__CarBattery", "ico_GearItem__CarBattery.png" },
             { "ico_GearItem__Camera", "ico_GearItem__Camera.png" },
-            
             { "ico_GearItem__RecipeCardPancakePeach", "ico_GearItem__RecipeCardPancakePeach.png" },
             { "ico_GearItem__RecipeCardPieMeat", "ico_GearItem__RecipeCardPieMeat.png" },
             { "ico_GearItem__RecipeCardPorridgeFruit", "ico_GearItem__RecipeCardPorridgeFruit.png" },
@@ -569,20 +571,17 @@ namespace TranslatedTextures
 
                 Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
 
-                // First try: treat the resource bytes as a standard image (png/jpg/etc)
                 if (ImageConversion.LoadImage(tex, bytes))
                 {
                     tex.name = textureName;
                     tex.filterMode = FilterMode.Bilinear;
-                    tex.wrapMode = TextureWrapMode.Clamp;
+                    tex.wrapMode = TextureWrapMode.Repeat;
                     tex.hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideAndDontSave;
                     UnityEngine.Object.DontDestroyOnLoad(tex);
-                    MelonLogger.Msg($"[TranslatedTextures] ✓ Loaded: {textureName} ({tex.width}x{tex.height})");
+                    //MelonLogger.Msg($"[TranslatedTextures] Loaded: {textureName} ({tex.width}x{tex.height})");
                     return tex;
                 }
 
-                // Fallback: some PSD resources were produced from PNG and may contain an embedded PNG blob.
-                // Try to locate PNG signature inside the resource and load that subsection.
                 byte[] pngSig = new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
                 int idx = -1;
                 for (int i = 0; i <= bytes.Length - pngSig.Length; i++)
@@ -606,20 +605,20 @@ namespace TranslatedTextures
                     {
                         tex2.name = textureName;
                         tex2.filterMode = FilterMode.Bilinear;
-                        tex2.wrapMode = TextureWrapMode.Clamp;
+                        tex2.wrapMode = TextureWrapMode.Repeat;
                         tex2.hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideAndDontSave;
                         UnityEngine.Object.DontDestroyOnLoad(tex2);
-                        MelonLogger.Msg($"[TranslatedTextures] ✓ Loaded (embedded PNG): {textureName} ({tex2.width}x{tex2.height})");
+                        //MelonLogger.Msg($"[TranslatedTextures] Loaded (embedded PNG): {textureName} ({tex2.width}x{tex2.height})");
                         return tex2;
                     }
                 }
 
-                MelonLogger.Error($"[TranslatedTextures] ❌ ImageConversion failed for: {textureName}");
+                //MelonLogger.Error($"[TranslatedTextures] ImageConversion failed for: {textureName}");
                 return null;
             }
             catch (System.Exception e)
             {
-                MelonLogger.Error($"[TranslatedTextures] ❌ Exception loading '{resourceName}': {e.Message}");
+                //MelonLogger.Error($"[TranslatedTextures] Exception loading '{resourceName}': {e.Message}");
                 return null;
             }
         }
@@ -636,7 +635,6 @@ namespace TranslatedTextures
             string textureName = Path.GetFileNameWithoutExtension(fileName);
             Texture2D tex = LoadEmbeddedTexture(resourceName, textureName);
 
-            // If direct load failed for a PNG, try a PSD resource variant (common in the resources folder)
             if (tex == null && Path.GetExtension(fileName).Equals(".png", System.StringComparison.OrdinalIgnoreCase))
             {
                 string altFile = Path.ChangeExtension(fileName, ".psd");
@@ -680,9 +678,9 @@ namespace TranslatedTextures
             {
                 _f7Pressed = true;
                 string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-                MelonLogger.Msg($"[TranslatedTextures] F7 forced reload: {sceneName}");
+                //MelonLogger.Msg($"[TranslatedTextures] F7 forced reload: {sceneName}");
                 StaticReplaceTextures(sceneName);
-                ForceReplaceDecals();
+                ForceReplaceDecals(true);
             }
             else if (!isDown) _f7Pressed = false;
         }
@@ -760,15 +758,10 @@ namespace TranslatedTextures
 
                         if (rule.DamageTextureFile != null)
                         {
-                            Texture2D dmgTex = GetOrLoadTexture(rule.DamageTextureFile);
+                            Texture2D dmgTex = GetOrLoadTexture(rule.DamageTextureFile);    
                             if (dmgTex != null)
                                 mats[i].SetTexture(711, dmgTex);
                         }
-
-                        MaterialPropertyBlock block = new MaterialPropertyBlock();
-                        renderer.GetPropertyBlock(block, i);
-                        block.SetTexture("_MainTex", newTex);
-                        renderer.SetPropertyBlock(block, i);
                     }
 
                     if (changed) totalReplaced++;
@@ -786,10 +779,11 @@ namespace TranslatedTextures
 
                 foreach (var rule in Rules)
                 {
-                    if (string.IsNullOrEmpty(rule.SourceTextureName)) continue;
+                    bool nameMatch = rule.ExactName
+                        ? objName == rule.TargetName
+                        : objName.Contains(rule.TargetName);
 
-                    if (!string.IsNullOrEmpty(rule.TargetName) &&
-                        !objName.Contains(rule.TargetName)) continue;
+                    if (!nameMatch) continue;
 
                     bool changed = false;
 
@@ -801,7 +795,8 @@ namespace TranslatedTextures
                         Texture currentTex = mats[i].mainTexture;
                         string texName = currentTex != null ? currentTex.name : "";
 
-                        if (!matName.Contains(rule.SourceTextureName) &&
+                        if (rule.SourceTextureName != null &&
+                            !matName.Contains(rule.SourceTextureName) &&
                             !texName.Contains(rule.SourceTextureName)) continue;
 
                         Texture2D newTex = GetOrLoadTexture(rule.TextureFile);
@@ -809,10 +804,7 @@ namespace TranslatedTextures
 
                         mats[i].mainTexture = newTex;
 
-                        MaterialPropertyBlock block = new MaterialPropertyBlock();
-                        renderer.GetPropertyBlock(block, i);
-                        block.SetTexture("_MainTex", newTex);
-                        renderer.SetPropertyBlock(block, i);
+
 
                         changed = true;
                     }
@@ -822,9 +814,9 @@ namespace TranslatedTextures
                 }
             }
 
-            ForceReplaceDecals();
+            ForceReplaceDecals(true);
 
-            MelonLogger.Msg($"[TranslatedTextures] StaticReplace done: {totalReplaced} replaced");
+            //MelonLogger.Msg($"[TranslatedTextures] StaticReplace done: {totalReplaced} replaced");
         }
     }
 
