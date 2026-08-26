@@ -258,8 +258,8 @@
 
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command=":: echo TranslatedTextures — successfully copied to Mods folder&#xD;&#xA;echo ========================================" />
-  </Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command=":: The Long Dark&#xD;&#xA;xcopy &quot;$(TargetPath)&quot; &quot;C:\SteamLibrary\steamapps\common\TheLongDark\Mods&quot; /Y /I&#xD;&#xA;echo.&#xD;&#xA;echo ========================================&#xD;&#xA;echo ✅ TranslatedTextures — successfully copied to Mods folder&#xD;&#xA;echo ========================================" />
+	</Target>
 
 </Project>
