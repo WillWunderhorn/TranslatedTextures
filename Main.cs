@@ -435,7 +435,8 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_TransformerInterior_B_Dif.png", TargetName = "OBJ_TransformerInterior_B", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "OBJ_TransformerBatteryFixed_B", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_FoodMRE_Dif.png", TargetName = "OBJ_MREWrapper_Old", ExactName = true },
-                new TextureRule { TextureFile = ".png", TargetName = "", ExactName = true },
+                new TextureRule{TextureFile = "OBJ_FoodAirlineChicken_A.png", TargetName = "Obj_FoodAirline_A_LOD0", ExactName = true, ParentName = "GEAR_AirlineFoodChick", SourceTextureName = "OBJ_FoodAirlineChicken"},
+                new TextureRule { TextureFile = "OBJ_FoodAirlineVeg_A.png",   TargetName = "Obj_FoodAirline_A_LOD0", ExactName = true, ParentName = "GEAR_AirlineFoodVeg", SourceTextureName = "OBJ_FoodAirlineVeg" },
             });
 
             return rules;
@@ -523,6 +524,8 @@ namespace TranslatedTextures
             { "ico_GearItem__RecipeCardPiePredator", "ico_GearItem__RecipeCardPiePredator.png" },
             { "ico_GearItem__RecipeCardStewMeat", "ico_GearItem__RecipeCardStewMeat.png" },
             { "ico_GearItem__RecipeCardStewVegetables", "ico_GearItem__RecipeCardStewVegetables.png" },
+            { "ico_GearItem__AirlineFoodChick", "ico_GearItem__AirlineFoodChick.png" },
+            { "ico_GearItem__AirlineFoodVeg", "ico_GearItem__AirlineFoodVeg.png" },
         };
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();
@@ -886,6 +889,7 @@ namespace TranslatedTextures
     }
 
     [HarmonyPatch(typeof(Il2Cpp.Panel_Container), "Enable")]
+    [HarmonyPriority(Priority.Low)]
     internal static class Panel_Container_Enable_Patch
     {
         static void Postfix()
