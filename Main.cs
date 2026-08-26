@@ -536,7 +536,7 @@ namespace TranslatedTextures
             { "ico_GearItem__PinnacleCanPeachesCrushed", "ico_GearItem__PinnacleCanPeachesCrushed.png" },
             { "ico_GearItem__CannedBeansCrushed", "ico_GearItem__CannedBeansCrushed.png" },
             { "ico_GearItem__TomatoSoupCanCrushed", "ico_GearItem__TomatoSoupCanCrushed.png" },
-            { "", ".png" },
+            { "ico_GearItem__DogFoodCrushed", "ico_GearItem__DogFoodCrushed.png" },
         };
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();

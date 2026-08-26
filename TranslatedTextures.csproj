@@ -263,6 +263,7 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__PinnacleCanPeachesCrushed.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedBeansCrushed.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__TomatoSoupCanCrushed.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__DogFoodCrushed.png" /> 
 
   </ItemGroup>
 
