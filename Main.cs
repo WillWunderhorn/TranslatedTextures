@@ -245,6 +245,7 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "GEAR_Film_Box_Sepia.png", TargetName = "GEAR_FilmBoxSepia" },
                 new TextureRule { TextureFile = "GEAR_GranolaBar_Dif.png", TargetName = "GranolaBarMesh" },
                 new TextureRule { TextureFile = "GEAR_FoodCannedCorn_Dif.png", TargetName = "OBJ_CannedCornFood", SourceTextureName = "GEAR_FoodCannedCorn_Dif" },
+                new TextureRule { TextureFile = "GEAR_FoodCannedCorn_Dif.png", TargetName = "OBJ_CannedBeansUsed", SourceTextureName = "GEAR_FoodCannedCorn_Dif" },
                 new TextureRule { TextureFile = "GEAR_PeanutButter_Dif.png", TargetName = "PeanutButter_LOD0", SourceTextureName = "GEAR_PeanutButter_Dif" },
                 new TextureRule { TextureFile = "GEAR_FoodSodaSummit_Dif.png", TargetName = "FoodSodaCan_LOD0", SourceTextureName = "GEAR_FoodSodaSummit_Dif" },
                 new TextureRule { TextureFile = "GEAR_FoodSodaOrange_Dif.png", TargetName = "FoodSodaCan_LOD0", SourceTextureName = "GEAR_FoodSodaOrange_Dif" },
@@ -435,8 +436,13 @@ namespace TranslatedTextures
                 new TextureRule { TextureFile = "OBJ_TransformerInterior_B_Dif.png", TargetName = "OBJ_TransformerInterior_B", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_CarBattery_Dif.png", TargetName = "OBJ_TransformerBatteryFixed_B", ExactName = true },
                 new TextureRule { TextureFile = "GEAR_FoodMRE_Dif.png", TargetName = "OBJ_MREWrapper_Old", ExactName = true },
-                new TextureRule{TextureFile = "OBJ_FoodAirlineChicken_A.png", TargetName = "Obj_FoodAirline_A_LOD0", ExactName = true, ParentName = "GEAR_AirlineFoodChick", SourceTextureName = "OBJ_FoodAirlineChicken"},
+                new TextureRule {TextureFile = "OBJ_FoodAirlineChicken_A.png", TargetName = "Obj_FoodAirline_A_LOD0", ExactName = true, ParentName = "GEAR_AirlineFoodChick", SourceTextureName = "OBJ_FoodAirlineChicken"},
                 new TextureRule { TextureFile = "OBJ_FoodAirlineVeg_A.png",   TargetName = "Obj_FoodAirline_A_LOD0", ExactName = true, ParentName = "GEAR_AirlineFoodVeg", SourceTextureName = "OBJ_FoodAirlineVeg" },
+
+                new TextureRule { TextureFile = "GEAR_FoodPorkAndBeans_Dif.png", TargetName = "OBJ_CannedBeansUsed", ExactName = true, SourceTextureName = "GEAR_FoodPorkAndBeans_Mat"},
+                new TextureRule { TextureFile = "GEAR_TomatoSoupCan_Dif.png", TargetName = "OBJ_CannedBeansUsed", ExactName = true, SourceTextureName = "GEAR_TomatoSoupCan_Mat"},
+                new TextureRule { TextureFile = "GEAR_FoodCannedPineapple_Dif.png", TargetName = "OBJ_CannedBeansUsed", ExactName = true, SourceTextureName = "GEAR_FoodCannedPineapple_Dif"},
+
             });
 
             return rules;
@@ -526,6 +532,11 @@ namespace TranslatedTextures
             { "ico_GearItem__RecipeCardStewVegetables", "ico_GearItem__RecipeCardStewVegetables.png" },
             { "ico_GearItem__AirlineFoodChick", "ico_GearItem__AirlineFoodChick.png" },
             { "ico_GearItem__AirlineFoodVeg", "ico_GearItem__AirlineFoodVeg.png" },
+            { "ico_GearItem__CannedCornCrushed", "ico_GearItem__CannedCornCrushed.png" },
+            { "ico_GearItem__PinnacleCanPeachesCrushed", "ico_GearItem__PinnacleCanPeachesCrushed.png" },
+            { "ico_GearItem__CannedBeansCrushed", "ico_GearItem__CannedBeansCrushed.png" },
+            { "ico_GearItem__TomatoSoupCanCrushed", "ico_GearItem__TomatoSoupCanCrushed.png" },
+            { "", ".png" },
         };
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();

@@ -259,6 +259,10 @@
 	<EmbeddedResource Include="Resources\Textures\Russian\GEAR_Camera.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__AirlineFoodChick.png" /> 
 	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__AirlineFoodVeg.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedCornCrushed.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__PinnacleCanPeachesCrushed.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__CannedBeansCrushed.png" /> 
+	<EmbeddedResource Include="Resources\Textures\Russian\ico_GearItem__TomatoSoupCanCrushed.png" /> 
 
   </ItemGroup>
 
