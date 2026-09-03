@@ -540,15 +540,9 @@ namespace TranslatedTextures
         };
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();
-
-        //private bool _f7Pressed = false;
         private static readonly List<float> _pendingTimers = new List<float>();
         private static string _pendingSceneName = null;
 
-        //public override void OnInitializeMelon()
-        //{
-        //    LoggerInstance.Msg("[TranslatedTextures] Lazy loading enabled");
-        //}
 
         private static Assembly _assembly = null;
 
@@ -596,7 +590,6 @@ namespace TranslatedTextures
                     tex.wrapMode = TextureWrapMode.Repeat;
                     tex.hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideAndDontSave;
                     UnityEngine.Object.DontDestroyOnLoad(tex);
-                    //MelonLogger.Msg($"[TranslatedTextures] Loaded: {textureName} ({tex.width}x{tex.height})");
                     return tex;
                 }
 
@@ -626,17 +619,16 @@ namespace TranslatedTextures
                         tex2.wrapMode = TextureWrapMode.Repeat;
                         tex2.hideFlags = HideFlags.DontUnloadUnusedAsset | HideFlags.HideAndDontSave;
                         UnityEngine.Object.DontDestroyOnLoad(tex2);
-                        //MelonLogger.Msg($"[TranslatedTextures] Loaded (embedded PNG): {textureName} ({tex2.width}x{tex2.height})");
                         return tex2;
                     }
                 }
 
-                MelonLogger.Error($"[TranslatedTextures] ImageConversion failed for: {textureName}");
+                MelonLogger.Error($"TranslatedTextures ImageConversion failed for: {textureName}");
                 return null;
             }
             catch (System.Exception e)
             {
-                MelonLogger.Error($"[TranslatedTextures] Exception loading '{resourceName}': {e.Message}");
+                MelonLogger.Error($"TranslatedTextures Exception loading '{resourceName}': {e.Message}");
                 return null;
             }
         }
@@ -690,23 +682,11 @@ namespace TranslatedTextures
                 }
                 if (_pendingTimers.Count == 0) _pendingSceneName = null;
             }
-
-            //bool isDown = UnityEngine.Input.GetKey(UnityEngine.KeyCode.F7);
-            //if (isDown && !_f7Pressed)
-            //{
-            //    _f7Pressed = true;
-            //    string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            //    //MelonLogger.Msg($"[TranslatedTextures] F7 forced reload: {sceneName}");
-            //    StaticReplaceTextures(sceneName);
-            //    ForceReplaceDecals(true);
-            //}
-            //else if (!isDown) _f7Pressed = false;
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            if (sceneName == "MainMenu" || sceneName == "MainMenu_DLC01" ||
-                sceneName == "Boot" || sceneName == "Empty") return;
+            if (sceneName == "MainMenu" || sceneName == "MainMenu_DLC01") return;
 
             _decalMaterialCache.Clear();
 
@@ -833,8 +813,6 @@ namespace TranslatedTextures
             }
 
             ForceReplaceDecals(true);
-
-            //MelonLogger.Msg($"[TranslatedTextures] StaticReplace done: {totalReplaced} replaced");
         }
     }
 
