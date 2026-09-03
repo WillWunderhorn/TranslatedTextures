@@ -857,15 +857,15 @@ namespace TranslatedTextures
         }
     }
 
-    [HarmonyPatch(typeof(Il2Cpp.Panel_Inventory), "OnDrop")]
-    internal static class Panel_Inventory_OnDrop_Patch
-    {
-        static void Prefix()
-        {
-            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            Main.ScheduleReplaceAfterDelay(sceneName);
-        }
-    }
+    //[HarmonyPatch(typeof(Il2Cpp.Panel_Inventory), "OnDrop")]
+    //internal static class Panel_Inventory_OnDrop_Patch
+    //{
+    //    static void Prefix()
+    //    {
+    //        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+    //        Main.ScheduleReplaceAfterDelay(sceneName);
+    //    }
+    //}
 
     //[HarmonyPatch(typeof(Il2Cpp.Panel_Inventory), "Enable", new Type[] { })]
     //internal static class Panel_Inventory_Enable_Patch
