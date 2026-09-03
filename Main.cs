@@ -540,10 +540,9 @@ namespace TranslatedTextures
         };
 
         internal static Dictionary<string, Texture2D> LoadedTextures = new Dictionary<string, Texture2D>();
+
         private static readonly List<float> _pendingTimers = new List<float>();
         private static string _pendingSceneName = null;
-
-
         private static Assembly _assembly = null;
 
         private static Assembly GetAssembly()
@@ -623,12 +622,12 @@ namespace TranslatedTextures
                     }
                 }
 
-                MelonLogger.Error($"TranslatedTextures ImageConversion failed for: {textureName}");
+                MelonLogger.Error($"[TranslatedTextures] ImageConversion failed for: {textureName}");
                 return null;
             }
             catch (System.Exception e)
             {
-                MelonLogger.Error($"TranslatedTextures Exception loading '{resourceName}': {e.Message}");
+                MelonLogger.Error($"[TranslatedTextures] Exception loading '{resourceName}': {e.Message}");
                 return null;
             }
         }
@@ -686,7 +685,8 @@ namespace TranslatedTextures
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            if (sceneName == "MainMenu" || sceneName == "MainMenu_DLC01") return;
+            if (sceneName == "MainMenu" || sceneName == "MainMenu_DLC01" ||
+                sceneName == "Boot" || sceneName == "Empty") return;
 
             _decalMaterialCache.Clear();
 
@@ -867,24 +867,25 @@ namespace TranslatedTextures
         }
     }
 
-    [HarmonyPatch(typeof(Il2Cpp.Panel_Inventory), "Enable")]
-    internal static class Panel_Inventory_Enable_Patch
-    {
-        static void Postfix()
-        {
-            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            Main.ScheduleReplaceAfterDelay(sceneName);
-        }
-    }
+    //[HarmonyPatch(typeof(Il2Cpp.Panel_Inventory), "Enable", new Type[] { })]
+    //internal static class Panel_Inventory_Enable_Patch
+    //{
+    //    static void Postfix()
+    //    {
+    //        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+    //        Main.ScheduleReplaceAfterDelay(sceneName);
+    //    }
+    //}
 
-    [HarmonyPatch(typeof(Il2Cpp.Panel_Container), "Enable")]
-    [HarmonyPriority(Priority.Low)]
-    internal static class Panel_Container_Enable_Patch
-    {
-        static void Postfix()
-        {
-            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            Main.ScheduleReplaceAfterDelay(sceneName);
-        }
-    }
+    //[HarmonyPatch(typeof(Il2Cpp.Panel_Container), "Enable", new Type[] { })]
+    //[HarmonyPriority(Priority.Low)]
+    //internal static class Panel_Container_Enable_Patch
+    //{
+    //    static void Postfix()
+    //    {
+    //        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+    //        Main.ScheduleReplaceAfterDelay(sceneName);
+    //    }
+    //}
+
 }
