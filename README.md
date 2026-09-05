@@ -9,3 +9,6 @@ Translates every single texture to Russian
 
 ## Usage
 Add this mod into the mod folder
+
+## Special thanks to mik5937
+For testing and helping with localization
