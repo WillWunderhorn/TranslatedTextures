@@ -16,7 +16,7 @@
     <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.1" /> 
     <PackageReference Include="LavaGang.MelonLoader" Version="0.7.3" />
     <PackageReference Include="STBlade.Modding.TLD.ModSettings" Version="1.9.0" />
-    <PackageReference Include="Waltz.Modding.TLD.Il2CppAssemblies.Windows" Version="2.52.0" />
+    <PackageReference Include="Waltz.Modding.TLD.Il2CppAssemblies.Windows" Version="2.52.0" /> 
   </ItemGroup>
 
 	<PropertyGroup>
